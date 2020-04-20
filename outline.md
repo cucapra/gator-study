@@ -1,6 +1,6 @@
 ## Introduction
 
-This docuement outlines a structure that could be used for a Gator tutorial attached to the Gator user study.  Such a tutorial will be attached to the website implementation, 
+This document will outline the goals of the user-study and overview the steps needed to set it up.  I'm gonna leave this mostly empty for the moment, since I need to figure these things out in more detail, but wanted to leave this as a placeholder for now.
 
 
 

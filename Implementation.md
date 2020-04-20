@@ -1,6 +1,6 @@
 ## Introduction
 
-This document outlines the software structure that should be implemented for a Gator user study.  In this, we will outline the study website structure, detail some ideas for how things should be implemented, and detail data collection.  This document does _not_ provide a discussion on the user study goals or the tutorial attached to the website; see each of the hyperlinked documents for further details on those topics (TODO: add links to those documents).
+This document outlines the software structure that should be implemented for a Gator user study.  In this, we will outline the study website structure, detail some ideas for how things should be implemented, and detail data collection.  This document does _not_ provide a discussion on the [user study goals](https://github.com/cucapra/gator-study/blob/master/outline.md) or [the tutorial attached to the website](https://github.com/cucapra/gator-study/blob/master/tutorial.md); see each of the hyperlinked documents for further details on those topics.
 
 ## Website Structure
 
