@@ -1,6 +1,6 @@
 ## Introduction
 
-This docuement outlines a structure that could be used for a Gator tutorial attached to the Gator user study.  Such a tutorial will be attached to the [website implementation](https://github.com/cucapra/gator-study/blob/master/implementation.md), 
+This docuement outlines a structure that could be used for a Gator tutorial attached to the Gator user study.  This tutorial will be attached to the [website implementation](https://github.com/cucapra/gator-study/blob/master/implementation.md).  
 
 
 
