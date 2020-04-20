@@ -1,0 +1,51 @@
+## Introduction
+
+This document outlines the software structure that should be implemented for a Gator user study.  In this, we will outline the study website structure, detail some ideas for how things should be implemented, and detail data collection.  This document does _not_ provide a discussion on the user study goals or the tutorial attached to the website; see each of the hyperlinked documents for further details on those topics (TODO: add links to those documents).
+
+## Website Structure
+
+The Gator user study will be built around a website accessible by the study group (initially privately accessible and later publically accessible once the website has been refined).  Users should first see a series of agreements and descriptions to setup the information needed for the study.  The main website should consist of a three panels: a tutorial, a window for writing Gator and GLSL, and a window for displaying the result.  For reference, this main website will probably look something like a mix between Microsoft's [rise4fun tutorials (such as z3)](https://rise4fun.com/Z3/tutorial/guide) and Capra's [braid dingus](https://capra.cs.cornell.edu/braid/dingus/).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
