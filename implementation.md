@@ -26,6 +26,8 @@ It might also be nice to have the functionality of hyperlinks or menus within th
 
 Some sections of the tutorial should have the user try and get code working in some way. As with other sections, these should load in a code skeleton to help the user get started with whatever task we are having them do. These sections should not be modifiable after the user has progressed (to capture that learning-experience feel), so it would be nice to have some sort of confirmation before the user proceeds.
 
+(Adrian wonders if there's any possible way we can automatically check whether an exercise solution is correct. Probably not? We may need to judge that ourself manually for the study, unless we want to insist of pixel-perfect rendering. We could let users view a "golden" output and decide for themselves whether their output matches.)
+
 ### Interactive Code
 
 Our interactive code window will provide an environment to write fragment shader code in either Gator or GLSL (depending on which the user was assigned).  All the backing TypeScript and vertex shader code should be pre-written, and provide several standard variables as needed. Initial proposed variables include position, normals, lightPosition, uModel, uView, uLight, and uProjection; in Gator, I expect these variables will all be pre-typed within example and skeleton code.
