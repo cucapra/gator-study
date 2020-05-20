@@ -4,9 +4,19 @@ This document outlines the software structure that should be implemented for a G
 
 ## Website Structure
 
-The Gator user study will be built around a website accessible by the study group (initially privately accessible and later publicly accessible once the website has been refined). Users should first see a series of agreements and descriptions to setup the information needed for the study. After these have been resolved, the main website should consist of three panels: a tutorial, a window for writing Gator and GLSL, and a window for displaying the result. For reference, this main website will probably look something like a mix between Microsoft's [rise4fun tutorials (such as z3)](https://rise4fun.com/Z3/tutorial/guide) and Capra's [braid dingus](https://capra.cs.cornell.edu/braid/dingus/). Finally, the user will be shown a survey and debrief after completing the tutorial, with the option to continue trying out GLSL/Gator if interested.
+The goal is to build an interactive Gator environment that serves two goals:
+
+1. Let users write Gator code in a browser and immediately see the rendered output. This way, people can learn and experiment with Gator in a totally self-directed way without installing anything. The use case is similar to Capra's [Braid dingus][].
+2. Building on the self-directed environment, provide guidance in the form of tutorials that teach the user about *graphics programming* by teaching them the Gator language. This will work by showing a mixture of tutorial text, pre-written code examples that can be loaded into the Gator execution environment, and prompts for exercises that encourage the learner to write Gator code themselves. The use case resembles [the Z3 tutorial in rise4fun][z3tut] and its code listings with "load in editor" buttons.
+
+The core component is an interface with three panels: a tutorial, a window for writing Gator and GLSL, and a window for displaying the result. (In self-directed mode, the tutorial pane will be hidden.)
+
+Building on this core interactive component, we will build the flow for the study itself. Users should first see a series of agreements and descriptions to setup the information needed for the study; then they should see the core interactive interface; then, finally, we will display an "exit survey" and debrief after completing the tutorial, with the option to continue trying out GLSL/Gator if interested.
 
 Since the bulk of the website programming work will be in making the main interactive website, the rest of this section will focus on detailing each of the three windows and what will be required to program each.
+
+[Braid dingus]: https://capra.cs.cornell.edu/braid/dingus/
+[z3tut]: https://rise4fun.com/Z3/tutorial/guide
 
 ### Tutorial
 
