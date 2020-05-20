@@ -7,7 +7,7 @@ This document outlines the software structure that should be implemented for a G
 The goal is to build an interactive Gator environment that serves two goals:
 
 1. Let users write Gator code in a browser and immediately see the rendered output. This way, people can learn and experiment with Gator in a totally self-directed way without installing anything. The use case is similar to Capra's [Braid dingus][].
-2. Building on the self-directed environment, provide guidance in the form of tutorials that teach the user about *graphics programming* by teaching them the Gator language. This will work by showing a mixture of tutorial text, pre-written code examples that can be loaded into the Gator execution environment, and prompts for exercises that encourage the learner to write Gator code themselves. The use case resembles [the Z3 tutorial in rise4fun][z3tut] and its code listings with "load in editor" buttons.
+2. Building on the self-directed environment, provide guidance in the form of tutorials that teach the user about *graphics programming* by teaching them the Gator language (or GLSL, depending on the experimental group). This will work by showing a mixture of tutorial text, pre-written code examples that can be loaded into the Gator execution environment, and prompts for exercises that encourage the learner to write Gator code themselves. The use case resembles [the Z3 tutorial in rise4fun][z3tut] and its code listings with "load in editor" buttons.
 
 The core component is an interface with three panels: a tutorial, a window for writing Gator and GLSL, and a window for displaying the result. (In self-directed mode, the tutorial pane will be hidden.)
 
@@ -20,7 +20,9 @@ Since the bulk of the website programming work will be in making the main intera
 
 ### Tutorial
 
-The tutorial is the most straightforward window, only including markdown text with an option to go forward and backward in the tutorial. Each section of the tutorial will have an associated example code and image that gets pulled up when accessed. It might also be nice to have the functionality of hyperlinks or menus within the tutorial pull up different examples (such as a link that pulls up a flat color teapot vs a flat color bunny), though this might ultimately be unnecessary.
+The tutorial is the most straightforward window, only including rendered Markdown text with an option to go forward and backward in the tutorial. Each section of the tutorial will have an associated example code and image that gets pulled up when accessed. We should be able to write the main text for the tutorial in plain Markdown text files checked in to the git repository, and then compile the whole system to include the text. We will also need to build some front-end JavaScript to find all the loadable code samples in the rendered Markdown and add buttons to load them into the editor.
+
+It might also be nice to have the functionality of hyperlinks or menus within the tutorial pull up different examples (such as a link that pulls up a flat color teapot vs a flat color bunny), though this might ultimately be unnecessary.
 
 Some sections of the tutorial should have the user try and get code working in some way. As with other sections, these should load in a code skeleton to help the user get started with whatever task we are having them do. These sections should not be modifiable after the user has progressed (to capture that learning-experience feel), so it would be nice to have some sort of confirmation before the user proceeds.
 
@@ -28,7 +30,7 @@ Some sections of the tutorial should have the user try and get code working in s
 
 Our interactive code window will provide an environment to write fragment shader code in either Gator or GLSL (depending on which the user was assigned).  All the backing TypeScript and vertex shader code should be pre-written, and provide several standard variables as needed. Initial proposed variables include position, normals, lightPosition, uModel, uView, uLight, and uProjection; in Gator, I expect these variables will all be pre-typed within example and skeleton code.
 
-Compiling raw GLSL should be straightforward since it can be compiled directly in TypeScript at runtime.  Gator will be the real challenge here, as we will need to have the code run locally without requiring the user to install Gator.  Adrian proposed the use of [js_of_ocaml](https://github.com/ocsigen/js_of_ocaml), which seems like a reasonable choice to have Gator compile code natively without requiring janky binary manipulation.
+Compiling raw GLSL should be straightforward since it can be compiled directly in the browser at runtime.  Gator will be the real challenge here, as we will need to have the code run locally without requiring the user to install Gator.  Adrian proposed the use of [js_of_ocaml](https://github.com/ocsigen/js_of_ocaml), which seems like a reasonable choice to let the Gator compiler run in the browser (and avoid communication with a compiler on the server).
 
 Updates to the code will update the image only when the user presses a `compile` button.  This design should help with data collection (see the later data collection section), and should help avoid user confusion of losing the image every time a small update is made.
 
@@ -40,8 +42,10 @@ The reference image should be updated real-time and slowly rotate to show severa
 
 The purpose of this user study is to collect data about how users interact with Gator vs GLSL, so data will be collected both at intervals as the user writes code and when the user marks the code as finished  In particular, we will collect the current state of the program whenever the user compiles the program and whenever the user submits the result.  
 
-Whenever the program is captured, we will specifically capture the time since last compilation / start, the state of the code, and a snapshot of the current 3D model being displayed on the screen.  This must be done automatically and stored in a secure manner. We were advised to organize some sort of storage service; something Cornell-owned would probably be ideal. This data will later be evaluated by hand to evaluate both the accuracy of the code and the number of "invisible" bugs not captured by the type system.  For example, GLSL may have invisible geometry bugs not immediately obvious when the model is viewed, but that may become apparent as state changes.
+Whenever the program is captured, we will specifically capture the time since last compilation / start, the state of the code, and a snapshot of the current 3D model being displayed on the screen.  This must be done automatically and stored in a secure manner. We were advised to organize some sort of storage service; something Cornell-owned would probably be ideal. (We can request a Cornell-hosted virtual machine from CIT to deploy the system whenever we need it.) This data will later be evaluated by hand to evaluate both the accuracy of the code and the number of "invisible" bugs not captured by the type system.  For example, GLSL may have invisible geometry bugs not immediately obvious when the model is viewed, but that may become apparent as state changes.
 
 ### User Identification
 
 With permission, we can collect the user's IP, which seems important to track users across sessions.  This is low priority since our first study will be in a session-based setting rather than freely online, but it is worth considering with design and general data collection.
+
+(Adrian also thinks we could consider collecting a randomly-generated opaque ID instead of an IP address, which might be preferable because it will prevent us from discovering users' location, etc.)
