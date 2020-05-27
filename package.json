@@ -1,0 +1,22 @@
+{
+  "name": "gator-study",
+  "version": "1.0.0",
+  "description": "Building a user study for Gator",
+  "main": "text_editor.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cucapra/gator-study.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cucapra/gator-study/issues"
+  },
+  "homepage": "https://github.com/cucapra/gator-study#readme",
+  "dependencies": {
+    "codemirror": "^5.54.0"
+  }
+}
