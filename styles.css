@@ -11,6 +11,10 @@ body, html {
     
 }
 
+.CodeMirror{
+    height: 100%;
+}
+
 .output {
     width: 49%;
     height: 89vh;
@@ -18,17 +22,26 @@ body, html {
     display: inline-block;
 }
 
-.visualizer{
+#visualizer{
     border: lightgrey 1px solid;
     height: 43vh;
     margin-bottom: 3vh;
 }
 
-.tutorial{
+#tutorial{
     border: lightgrey 1px solid;
     height: 43vh;
 }
 
 .marked-text {
     /* background: red;     */
+}
+
+
+textarea#code_vert.code_input_vert {
+    display: none;
+}
+
+textarea#code_frag.code_input {
+    display: none;
 }
