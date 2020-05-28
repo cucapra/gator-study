@@ -15,11 +15,16 @@ body, html {
     height: 100%;
 }
 
+#buttons {
+    text-align: left;
+}
+
 .output {
     width: 49%;
     height: 89vh;
     float:right;
     display: inline-block;
+    text-align: center;
 }
 
 #visualizer{

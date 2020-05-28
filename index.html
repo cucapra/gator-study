@@ -58,13 +58,14 @@
 
         <div class="output">
                     <canvas id="myWebGLCanvas" height="300px" width="400px";>Your browser does not support the canvas element</canvas>
-                    
+        </br>
+            <div id="buttons">
                     <button type="button" onclick="updateRenderer()">Compile</button>
                     <select onchange="modelChanged()" id="select_id2">
                       <option value="./teapot.txt">Teapot</option>
                       <option value="./cube.txt">Cube</option>
                     </select>
-                
+            </div>
                    <textarea cols="40" rows="10" class="code_input_vert" id="code_vert">
                           attribute vec3 inputPosition;
                           attribute vec2 inputTexCoord;
@@ -129,6 +130,7 @@
 
 
             <div id="tutorial">
+                <p>---tutorial</p>
                 <canvas></canvas>
             </div>
         </div>
