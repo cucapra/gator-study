@@ -5,7 +5,7 @@ I would recommend starting with [the website implementation document](https://gi
 
 
 ## To Run
-We currently are using a python simple server to run our website on `localhost:8000.
+We currently are using a python simple server to run our website on `localhost:8000`.
 
 ```bash
 python3 -m http.server
