@@ -43,7 +43,7 @@ var cm = document.querySelector('.CodeMirror').CodeMirror;
   var attenuationLoc = 0;
   var projection = new Float32Array(16);
   var modelview = new Float32Array(16);
-  var currentFileName = "./teapot.txt";
+  var currentFileName = "./models/teapot.txt";
   
   // public 
   this.updateShader = function (newvertSrc, newfragSrc) {
@@ -91,6 +91,8 @@ var cm = document.querySelector('.CodeMirror').CodeMirror;
     var sceneVertexData = loadVertexData(currentFileName);
     
     sceneVertNo = sceneVertexData.length / (3+2+3);
+
+    console.log(sceneVertexData);
     
     gl.bindBuffer(gl.ARRAY_BUFFER, bufID);
     gl.bufferData(gl.ARRAY_BUFFER, sceneVertexData, gl.STATIC_DRAW);
@@ -129,6 +131,8 @@ var cm = document.querySelector('.CodeMirror').CodeMirror;
 
     }else{
       var floatVals = request.responseText.split('\n');
+
+      console.log(floatVals);
       var numFloats = parseInt(floatVals[0]);
       if(numFloats % (3+2+3) != 0) return data;
       data = new Float32Array(numFloats);

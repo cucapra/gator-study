@@ -11,10 +11,11 @@
 <script src="node_modules/codemirror/lib/codemirror.js"></script>
 <link rel="stylesheet" href="node_modules/codemirror/lib/codemirror.css">
 
-<script src="text_editor.js"></script>
-<link rel = "stylesheet" type = "text/css" href = "styles.css" />
-<script language="JavaScript" type="text/javascript" src="./visualizer.js"></script>
+<script src="./js/text_editor.js"></script>
+<link rel = "stylesheet" type = "text/css" href = "./css/styles.css" />
+<script language="JavaScript" type="text/javascript" src="./js/visualizer.js"></script>
 <script language="JavaScript" type="text/javascript">
+  
   var renderer = 0;
 
   function run() {
@@ -62,8 +63,9 @@
             <div id="buttons">
                     <button type="button" onclick="updateRenderer()">Compile</button>
                     <select onchange="modelChanged()" id="select_id2">
-                      <option value="./teapot.txt">Teapot</option>
-                      <option value="./cube.txt">Cube</option>
+                      <option value="./models/teapot.txt">Teapot</option>
+                      <option value="./models/cube.txt">Cube</option>
+
                     </select>
             </div>
                    <textarea cols="40" rows="10" class="code_input_vert" id="code_vert">
