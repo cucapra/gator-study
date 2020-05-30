@@ -19,18 +19,17 @@
   var renderer = 0;
 
   function run() {
-    var vertSrc = document.getElementById("code_vert").value;
-    var fracSrc = document.getElementById("code_frag").value;
-
-    renderer = new Renderer("myWebGLCanvas", vertSrc, fracSrc);
+   // var vertSrc = document.getElementById("code_vert").value;
+    //var fracSrc = document.getElementById("code_frag").value;
+    renderer = new Renderer("myWebGLCanvas");
     renderer.init();
     renderer.display();
   }
 
   function updateRenderer() {
-    var vertSrc = document.getElementById("code_vert").value;
-    var fragSrc = document.getElementById("code_frag").value;
-    renderer.updateShader(vertSrc, fragSrc);
+  //  var vertSrc = document.getElementById("code_vert").value;
+  //  var fragSrc = document.getElementById("code_frag").value;
+    renderer.updateShader();
     renderer.display();
   }
 
@@ -59,15 +58,7 @@
 
         <div class="output">
                     <canvas id="myWebGLCanvas" height="300px" width="400px";>Your browser does not support the canvas element</canvas>
-        </br>
-            <div id="buttons">
-                    <button type="button" onclick="updateRenderer()">Compile</button>
-                    <select onchange="modelChanged()" id="select_id2">
-                      <option value="./models/teapot.txt">Teapot</option>
-                      <option value="./models/cube.txt">Cube</option>
-
-                    </select>
-            </div>
+           
                    <textarea cols="40" rows="10" class="code_input_vert" id="code_vert">
                           attribute vec3 inputPosition;
                           attribute vec2 inputTexCoord;
@@ -83,53 +74,22 @@
                               vec4 vertPos4 = modelview * vec4(inputPosition, 1.0);
                               vertPos = vec3(vertPos4) / vertPos4.w;
                               normalInterp = vec3(normalMat * vec4(inputNormal, 0.0));
-                          }
-                              
-                          </textarea>
-                
-                          <p id="code_vert_error" style="width: 200px;"></p>
-                
-                        <textarea cols="40" rows="10" class="code_input" id="code_frag">
-                          precision mediump float; 
-                
-                          varying vec3 normalInterp;
-                          varying vec3 vertPos;
-                          
-                          uniform int mode;
-                          
-                          const vec3 lightPos = vec3(1.0,1.0,1.0);
-                          const vec3 ambientColor = vec3(0.3, 0.0, 0.0);
-                          const vec3 diffuseColor = vec3(0.5, 0.0, 0.0);
-                          const vec3 specColor = vec3(1.0, 1.0, 1.0);
-                          
-                          void main() {
-                              vec3 normal = normalize(normalInterp);
-                              vec3 lightDir = normalize(lightPos - vertPos);
-                              vec3 reflectDir = reflect(-lightDir, normal);
-                              vec3 viewDir = normalize(-vertPos);
-                          
-                              float lambertian = max(dot(lightDir,normal), 0.0);
-                              float specular = 0.0;
-                          
-                              if(lambertian > 0.0) {
-                                 float specAngle = max(dot(reflectDir, viewDir), 0.0);
-                                 specular = pow(specAngle, 4.0);
-                              }
-                              gl_FragColor = vec4(ambientColor +
-                                                lambertian*diffuseColor +
-                                                specular*specColor, 1.0);
-                          
-                              // only ambient
-                              if(mode == 2) gl_FragColor = vec4(ambientColor, 1.0);
-                              // only diffuse
-                              if(mode == 3) gl_FragColor = vec4(lambertian*diffuseColor, 1.0);
-                              // only specular
-                              if(mode == 4) gl_FragColor = vec4(specular*specColor, 1.0);
-                          
-                          }
-                          </textarea>
-                          <p id="code_frag_error" style="width: 200px;"></p>
-
+                          }                            
+                          </textarea>      
+                          <!-- <p id="code_vert_error" style="width: 200px;"></p> -->
+                          <div id="code_frag_error_div" style="display: none;">
+                            <p id="code_frag_error"></p>
+                          </div>
+      
+                      <div id="buttons">
+                              <button type="button" onclick="updateRenderer()">Compile</button>
+                              <select onchange="modelChanged()" id="select_id2">
+                                <option value="./models/teapot.txt">Teapot</option>
+                                <option value="./models/cube.txt">Cube</option>
+          
+                              </select>
+                      </div>
+            
 
             <div id="tutorial">
                 <p>---tutorial</p>

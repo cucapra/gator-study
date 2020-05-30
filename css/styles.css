@@ -16,6 +16,7 @@ body, html {
 
 #buttons {
     text-align: left;
+    margin-bottom: 10px;
 }
 
 .output {
@@ -48,4 +49,15 @@ textarea#code_vert.code_input_vert {
 
 textarea#code_frag.code_input {
     display: none;
+}
+
+#code_frag_error {
+    text-align: left;
+    height: fit-content;
+}
+
+#code_frag_error_div {
+    height: 42vh;
+    margin: 0px;
+    text-align: left;
 }

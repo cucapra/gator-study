@@ -1,7 +1,4 @@
-
-
-  
-function Renderer(canvasName, vertSrc, fragSrc) 
+function Renderer(canvasName) 
 {
 
 var cm = document.querySelector('.CodeMirror').CodeMirror;
@@ -21,7 +18,7 @@ var cm = document.querySelector('.CodeMirror').CodeMirror;
   
   // private members (inside closure)
   var canvasName = canvasName;
-  var vertSrc = vertSrc;
+  var vertSrc = document.getElementById("code_vert").value;;
   // var fragSrc= = fragSrc;
   var fragSrc = showCode();
   var canvas;
@@ -46,12 +43,10 @@ var cm = document.querySelector('.CodeMirror').CodeMirror;
   var currentFileName = "./models/teapot.txt";
   
   // public 
-  this.updateShader = function (newvertSrc, newfragSrc) {
-    vertSrc = newvertSrc;
+  this.updateShader = function (newfragSrc) {
     fragSrc = showCode();
     
     gl.deleteProgram(progID);
-    gl.deleteShader(vertID);
     gl.deleteShader(fragID);
     
     setupShaders();
@@ -206,19 +201,26 @@ var cm = document.querySelector('.CodeMirror').CodeMirror;
     gl.compileShader(fragID);
 
     var error = false;
+
     // check for errors
-    if(!gl.getShaderParameter(vertID, gl.COMPILE_STATUS)) {
-      document.getElementById("code_vert_error").innerHTML = "invalid vertex shader : " + gl.getShaderInfoLog(vertID);
-      error = true;
-    }
-    else{
-      document.getElementById("code_vert_error").innerHTML = "";
-    }
+    // if(!gl.getShaderParameter(vertID, gl.COMPILE_STATUS)) {
+    //   document.getElementById("code_vert_error").innerHTML = "invalid vertex shader : " + gl.getShaderInfoLog(vertID);
+    //   error = true;
+    // }
+    // else{
+    //   document.getElementById("code_vert_error").innerHTML = "";
+    // }
+
     if(!gl.getShaderParameter(fragID, gl.COMPILE_STATUS)) {
       document.getElementById("code_frag_error").innerHTML = "invalid fragment shader : " + gl.getShaderInfoLog(fragID);
+      document.getElementById("code_frag_error_div").style.display = "inline-block";
+      document.getElementById("myWebGLCanvas").style.display = "none";
       error = true;
+
     }else{
       document.getElementById("code_frag_error").innerHTML = "";
+      document.getElementById("code_frag_error_div").style.display = "none";
+      document.getElementById("myWebGLCanvas").style.display = "inline-block";
     }
     
     if(error) return;
@@ -250,10 +252,7 @@ var cm = document.querySelector('.CodeMirror').CodeMirror;
     attenuationLoc = gl.getUniformLocation(progID, "attenuationVal");
 
   }
-  
-  // the following functions are some matrix and vector helpers
-  // they work for this demo but in general it is recommended
-  // to use more advanced matrix libraries
+
   function vec3Dot(a, b) {
     return a[0]*b[0] + a[1]*b[1] + a[2]*b[2];
   }
