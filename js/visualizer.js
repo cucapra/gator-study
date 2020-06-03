@@ -1,4 +1,4 @@
-function Renderer(canvasName) 
+export function Renderer(canvasName) 
 {
 
 var cm = document.querySelector('.CodeMirror').CodeMirror;
