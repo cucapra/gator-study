@@ -8,50 +8,14 @@
 <title>Gator Study</title>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="node_modules/codemirror/lib/codemirror.js"></script>
 <link rel="stylesheet" href="node_modules/codemirror/lib/codemirror.css">
 
-<script src="./js/text_editor.js"></script>
 <link rel = "stylesheet" type = "text/css" href = "./css/styles.css" />
-<script language="JavaScript" type="text/javascript" src="./js/visualizer.js"></script>
-<script language="JavaScript" type="text/javascript">
-  
-  var renderer = 0;
-
-  function run() {
-   // var vertSrc = document.getElementById("code_vert").value;
-    //var fracSrc = document.getElementById("code_frag").value;
-    renderer = new Renderer("myWebGLCanvas");
-    renderer.init();
-    renderer.display();
-  }
-
-  function updateRenderer() {
-  //  var vertSrc = document.getElementById("code_vert").value;
-  //  var fragSrc = document.getElementById("code_frag").value;
-    renderer.updateShader();
-    renderer.display();
-  }
-
-  var interval = setInterval(timerFunc, 40);
-
-  function timerFunc() {
-    var offset = 1.0;
-    renderer.t += offset;
-    renderer.display();
-  }
-
-  function modelChanged() {
-    var d = document.getElementById("select_id2").value;
-    renderer.updateModel(d);
-    renderer.display();
-  }
-
-</script>
+<script language="JavaScript" type="text/javascript" src="./js/main.js"></script>
 
 </head>
 
-<body onload="run();">
+<body>
         <div id="editor">
             
         </div>
@@ -82,8 +46,8 @@
                           </div>
       
                       <div id="buttons">
-                              <button type="button" onclick="updateRenderer()">Compile</button>
-                              <select onchange="modelChanged()" id="select_id2">
+                              <button type="button" id="btnCompile">Compile</button>
+                              <select id="select_id2">
                                 <option value="./models/teapot.txt">Teapot</option>
                                 <option value="./models/cube.txt">Cube</option>
           

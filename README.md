@@ -5,8 +5,7 @@ I would recommend starting with [the website implementation document](https://gi
 
 
 ## serving
-We currently are using a python simple server to run our website on `localhost:8000`.
 
-```bash
-python3 -m http.server
-```
+Try typing `npm start` to start the [Parcel][] server.
+
+[parcel]: https://parceljs.org
