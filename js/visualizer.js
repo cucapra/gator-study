@@ -1,7 +1,20 @@
+// A funky this Parcel can do is inline text file data into the bundle so you
+// can use it directly! It looks for `readFileSync` calls and gets the data at
+// compile time.
+// https://parceljs.org/javascript.html
+import fs from 'fs';
+const teapotData = fs.readFileSync('./models/teapot.txt');
+const cubeData = fs.readFileSync('./models/cube.txt');
+
 export function Renderer(canvasName) 
 {
 
 var cm = document.querySelector('.CodeMirror').CodeMirror;
+
+  const modelMap = {
+    'teapot': teapotData,
+    'cube': cubeData,
+  };
 
   function showCode()
   {
@@ -40,7 +53,7 @@ var cm = document.querySelector('.CodeMirror').CodeMirror;
   var attenuationLoc = 0;
   var projection = new Float32Array(16);
   var modelview = new Float32Array(16);
-  var currentFileName = "./models/teapot.txt";
+  var currentModel = 'teapot';
   
   // public 
   this.updateShader = function (newfragSrc) {
@@ -54,8 +67,8 @@ var cm = document.querySelector('.CodeMirror').CodeMirror;
   
   
   // public 
-  this.updateModel = function (newFileName) {
-    currentFileName = newFileName;
+  this.updateModel = function (newModel) {
+    currentModel = newModel;
     
     gl.deleteProgram(progID);
     gl.deleteShader(vertID);
@@ -83,7 +96,7 @@ var cm = document.querySelector('.CodeMirror').CodeMirror;
     // generate a Vertex Buffer Object (VBO)
     bufID = gl.createBuffer();
     
-    var sceneVertexData = loadVertexData(currentFileName);
+    var sceneVertexData = loadVertexData(currentModel);
     
     sceneVertNo = sceneVertexData.length / (3+2+3);
 
@@ -115,17 +128,15 @@ var cm = document.querySelector('.CodeMirror').CodeMirror;
     this.resize(this.canvas.width, this.canvas.height);
   }
   
-  function loadVertexData(filename) {
+  function loadVertexData(modelName) {
     var data = new Float32Array(0);
-    var request = new XMLHttpRequest();
-    request.open('GET', filename, false);
-    request.send(); //"false" above, will block 
+    var modelStr = modelMap[modelName].toString();
      
-    if (request.status != 200) {
-      alert("can not load file " + filename);
+    if (!modelStr) {
+      alert("unknown model: " + modelName);
 
     }else{
-      var floatVals = request.responseText.split('\n');
+      var floatVals = modelStr.split('\n');
 
       console.log(floatVals);
       var numFloats = parseInt(floatVals[0]);
