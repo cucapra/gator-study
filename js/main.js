@@ -34,9 +34,11 @@ function modelChanged() {
 
 // This is the equivalent of doing <body onload="...">.
 document.addEventListener('DOMContentLoaded', (event) => {
-  // And this one replaces onclick="...".
+  // And these ones replace onclick and onchange handlers in the HTML.
   document.getElementById("btnCompile").
     addEventListener('click', updateRenderer);
+  document.getElementById("select_id2").
+    addEventListener('change', modelChanged);
 
   setup();  // This was previously a $(window).on('load') function, but now
             // I've made sure it happens before we do run().
