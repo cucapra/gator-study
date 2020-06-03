@@ -269,7 +269,9 @@ var cm = document.querySelector('.CodeMirror').CodeMirror;
   } 
   
   function mat4Identity(a) {
-    a.length = 16;
+    // Adrian commented this out because he doesn't understand it??? Here `a`
+    // is a `Float32Array`, so you can't change its length...
+    // a.length = 16;
     for (var i = 0; i < 16; ++i) a[i] = 0.0;
     for (var i = 0; i < 4; ++i) a[i + i * 4] = 1.0;
   }
