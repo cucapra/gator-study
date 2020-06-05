@@ -99,8 +99,6 @@ var cm = document.querySelector('.CodeMirror').CodeMirror;
     var sceneVertexData = loadVertexData(currentModel);
     
     sceneVertNo = sceneVertexData.length / (3+2+3);
-
-    console.log(sceneVertexData);
     
     gl.bindBuffer(gl.ARRAY_BUFFER, bufID);
     gl.bufferData(gl.ARRAY_BUFFER, sceneVertexData, gl.STATIC_DRAW);
@@ -137,8 +135,7 @@ var cm = document.querySelector('.CodeMirror').CodeMirror;
 
     }else{
       var floatVals = modelStr.split('\n');
-
-      console.log(floatVals);
+      
       var numFloats = parseInt(floatVals[0]);
       if(numFloats % (3+2+3) != 0) return data;
       data = new Float32Array(numFloats);

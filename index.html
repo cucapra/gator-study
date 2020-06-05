@@ -1,66 +1,69 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- Create a simple CodeMirror instance -->
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Create a simple CodeMirror instance -->
 
-<title>Gator Study</title>
+        <title>Gator Study</title>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<link rel="stylesheet" href="node_modules/codemirror/lib/codemirror.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="node_modules/codemirror/lib/codemirror.css">
 
-<link rel = "stylesheet" type = "text/css" href = "./css/styles.css" />
-<script language="JavaScript" type="text/javascript" src="./js/main.js"></script>
+        <link rel = "stylesheet" type = "text/css" href = "./css/styles.css" />
+        <script language="JavaScript" type="text/javascript" src="./js/main.js"></script>
+    </head>
 
-</head>
-
-<body>
-        <div id="editor">
-            
-        </div>
-
-        <div class="output">
-                    <canvas id="myWebGLCanvas" height="300px" width="400px";>Your browser does not support the canvas element</canvas>
-           
-                   <textarea cols="40" rows="10" class="code_input_vert" id="code_vert">
-                          attribute vec3 inputPosition;
-                          attribute vec2 inputTexCoord;
-                          attribute vec3 inputNormal;
-                          
-                          uniform mat4 projection, modelview, normalMat;
-                          
-                          varying vec3 normalInterp;
-                          varying vec3 vertPos;
-                          
-                          void main(){
-                              gl_Position = projection * modelview * vec4(inputPosition, 1.0);
-                              vec4 vertPos4 = modelview * vec4(inputPosition, 1.0);
-                              vertPos = vec3(vertPos4) / vertPos4.w;
-                              normalInterp = vec3(normalMat * vec4(inputNormal, 0.0));
-                          }                            
-                          </textarea>      
-                          <!-- <p id="code_vert_error" style="width: 200px;"></p> -->
-                          <div id="code_frag_error_div" style="display: none;">
-                            <p id="code_frag_error"></p>
-                          </div>
-      
-                      <div id="buttons">
-                              <button type="button" id="btnCompile">Compile</button>
-                              <select id="select_id2">
-                                <option value="teapot">Teapot</option>
-                                <option value="cube">Cube</option>
-          
-                              </select>
-                      </div>
-            
-
-            <div id="tutorial">
-                <p>---tutorial</p>
-                <canvas></canvas>
+    <body>
+            <div id="editor">
             </div>
-        </div>
 
-</body>
+            <div class="output">
+                <canvas id="myWebGLCanvas" height="300px" width="400px";>Your browser does not support the canvas element</canvas>
+            
+                <textarea cols="40" rows="10" class="code_input_vert" id="code_vert">
+                    attribute vec3 inputPosition;
+                    attribute vec2 inputTexCoord;
+                    attribute vec3 inputNormal;
+                    
+                    uniform mat4 projection, modelview, normalMat;
+                    
+                    varying vec3 normalInterp;
+                    varying vec3 vertPos;
+                    
+                    void main(){
+                        gl_Position = projection * modelview * vec4(inputPosition, 1.0);
+                        vec4 vertPos4 = modelview * vec4(inputPosition, 1.0);
+                        vertPos = vec3(vertPos4) / vertPos4.w;
+                        normalInterp = vec3(normalMat * vec4(inputNormal, 0.0));
+                    }                            
+                </textarea>      
+                <!-- <p id="code_vert_error" style="width: 200px;"></p> -->
+                <div id="code_frag_error_div" style="display: none;">
+                    <p id="code_frag_error"></p>
+                </div>
+        
+                <div id="buttons">
+                    <button type="button" id="btnCompile">Compile</button>
+                    <select id="select_id2">
+                        <option value="teapot">Teapot</option>
+                        <option value="cube">Cube</option>
+                    </select>
+                </div>
+        
+                <div id="tutorial">
+                    <div class="slideshow-container">
+                        <p>GLSL Tutorial</p>
+                        <p id="tutorialText">to get started press the next button </br> this is a phong model</p>
+                        <div class="mySlides2" display="block">
+                        </div>       
+                            <button class="prev" id="prev">&#10094;</button>
+                            <button class="next" id="next">&#10095;</button>
+                        </div>
+                    
+                </div>
+            </div>
+
+    </body>
 
 </html>
