@@ -15,11 +15,51 @@
     </head>
 
     <body>
-            <div id="editor">
-            </div>
+        <div id="headWrapper">
+            <p>Graphics Programming Tutorial</p>
+        </div>
+        <div id = "main">
+                <div class="dividers"></div>
+        <div id="tutorial" class="panel">
+        <div class="buttonBar" id="tutorialHeader">
+            <p>Tutorial</p>
+        </div>
+                <div class="slideshow-container">
+                    <div id="tutorialMain">
+                        <p>GLSL Tutorial</p>
+                        <p id="tutorialText">to get started press the next button this is a phong model</p>
+                   </div>
+                    <div class="mySlides2" display="block">
+                    </div>       
 
-            <div class="output">
-                <canvas id="myWebGLCanvas" height="300px" width="400px";>Your browser does not support the canvas element</canvas>
+                    </div>
+                    <button class="prev" id="prev">&#10094;</button>
+                    <button class="next" id="next">&#10095;</button>   
+            </div>
+            <div class="dividers"></div>
+            <!-- <div id="editorHeader"><div> -->
+            <div id="notTutorial"> 
+            
+            <div id="editor" class="panel">
+            <div class="buttonBar">
+                    <div id="buttons">
+    
+                    <button type="button" id="btnReset">Reset Code</button>
+                    <button type="button" id="btnCompile">Compile</button>
+
+                    </div>
+            </div>
+            </div> 
+            </div>
+            <div class="dividers"></div>
+            <div class="output panel">
+            <div class="buttonBar">
+                    <select id="select_id2">
+                            <option value="teapot">Teapot</option>
+                            <option value="cube">Cube</option>
+                        </select>
+            </div>
+                <canvas id="myWebGLCanvas" height="350px" width="350px";>Your browser does not support the canvas element</canvas>
             
                 <textarea cols="40" rows="10" class="code_input_vert" id="code_vert">
                     attribute vec3 inputPosition;
@@ -43,27 +83,12 @@
                     <p id="code_frag_error"></p>
                 </div>
         
-                <div id="buttons">
-                    <button type="button" id="btnCompile">Compile</button>
-                    <select id="select_id2">
-                        <option value="teapot">Teapot</option>
-                        <option value="cube">Cube</option>
-                    </select>
-                </div>
-        
-                <div id="tutorial">
-                    <div class="slideshow-container">
-                        <p>GLSL Tutorial</p>
-                        <p id="tutorialText">to get started press the next button </br> this is a phong model</p>
-                        <div class="mySlides2" display="block">
-                        </div>       
-                            <button class="prev" id="prev">&#10094;</button>
-                            <button class="next" id="next">&#10095;</button>
-                        </div>
-                    
-                </div>
-            </div>
 
+            </div>
+            <div class="dividers"></div>
+        </div>
+        </div>
+            <div id="footWrapper"></div>
     </body>
 
 </html>

@@ -6,8 +6,7 @@ export function setup() {
       mode: "javascript",
       indentUnit: 4,
       lineNumbers: true,
-      path:'theme',
-      theme: 'material'
+      lineWrapping: true
     });
   
     document.getElementById("editor").style.height = "89vh";
