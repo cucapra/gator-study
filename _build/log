@@ -1,0 +1,4 @@
+# dune build bin/gatorc.bc.js
+# OCAMLPARAM: unset
+$ /usr/bin/getconf _NPROCESSORS_ONLN > /var/folders/jp/vzgs715n0hb7k3hh_8sxyrxm0000gn/T/dune055e37.output 2> /dev/null
+$ /Users/kimbaum/.opam/4.09.0/bin/ocamlc.opt -config > /var/folders/jp/vzgs715n0hb7k3hh_8sxyrxm0000gn/T/dune07ee16.output

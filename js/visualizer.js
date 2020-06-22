@@ -3,6 +3,7 @@
 // compile time.
 // https://parceljs.org/javascript.html
 import fs from 'fs';
+
 const teapotData = fs.readFileSync('./models/teapot.txt');
 const cubeData = fs.readFileSync('./models/cube.txt');
 
@@ -23,7 +24,10 @@ var cm = document.querySelector('.CodeMirror').CodeMirror;
   }
 
   // public member
-  this.t = 0.0;
+  this.t = 0.0; //x
+  this.y = 0.0; //y
+  this.z = 0.0; //zoom
+
   this.modeVal = 1;
   this.lightPos = new Float32Array(3);
   this.lightVec = new Float32Array(3);
@@ -54,7 +58,7 @@ var cm = document.querySelector('.CodeMirror').CodeMirror;
   var projection = new Float32Array(16);
   var modelview = new Float32Array(16);
   var currentModel = 'teapot';
-  
+
   // public 
   this.updateShader = function (newfragSrc) {
     fragSrc = showCode();
@@ -126,6 +130,8 @@ var cm = document.querySelector('.CodeMirror').CodeMirror;
     this.resize(this.canvas.width, this.canvas.height);
   }
   
+
+
   function loadVertexData(modelName) {
     var data = new Float32Array(0);
     var modelStr = modelMap[modelName].toString();
@@ -143,6 +149,7 @@ var cm = document.querySelector('.CodeMirror').CodeMirror;
         data[k] = floatVals[k+1];
       }
     }
+    console.log(data);
     return data;
   }
 
@@ -155,6 +162,9 @@ var cm = document.querySelector('.CodeMirror').CodeMirror;
     //mat4Print(projection);
   }
   
+
+
+
   //public 
   this.display = function () {
     gl.clearColor(0.0, 0.0, 0.0, 0.0);
@@ -163,11 +173,14 @@ var cm = document.querySelector('.CodeMirror').CodeMirror;
     // camera orbits in the z=1.5 plane
     // and looks at the origin
     // mat4LookAt replaces gluLookAt
-    var rad = Math.PI / 180.0 * this.t;
+    var rad = Math.PI / 180.0 * (this.t);
+    var rady = Math.PI / 180.0 * (this.y);
+
+  //  modelview = mat4Multiply(modelview, [1+this.z,1+this.z,1+this.z,1+this.z]);
 
     mat4LookAt(modelview,
-               1.5*Math.cos(rad), 1.5*Math.sin(rad), 1.5, // eye
-               0.0, 0.0, 0.0, // look at
+               1.5*Math.cos(rad),  1.5*Math.sin(rad), 1.5*Math.sin(rady), // eye
+               0.0, 0.0,  0.0, // look at
                0.0, 0.0, 1.0); // up
     
     //mat4Print(modelview);
@@ -192,6 +205,7 @@ var cm = document.querySelector('.CodeMirror').CodeMirror;
     gl.bindBuffer(gl.ARRAY_BUFFER, bufID);
     gl.drawArrays(gl.TRIANGLES, 0, sceneVertNo);
   }
+
   
   // private 
   function setupShaders() {

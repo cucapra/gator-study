@@ -36,13 +36,15 @@ body, html {
     width: 100%;
     display: flex;
     font-size: 20px;
-    color: white;
-    
+    color: #00b1f2;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
 }
 #headWrapper p{
     padding-left: 10px;
-    font-weight: 600;
+    margin-top:15px;
+    font-size: calc(1vw + 1vh + 1vmin);
+    /* letter-spacing: .5px;
+    font-weight: 600; */
 }
 .buttonBar{
     height:6vh;
@@ -64,10 +66,6 @@ body, html {
     padding: 1vw;
     font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
 }
-
-.panel{
-}
-
 #select_id2{
     float: right;
     color:black;
@@ -106,20 +104,20 @@ body, html {
     display: inline-block;
 }
 
-/* #editorHeader{
+#editorHeader{
     height: 7vh;
     background:rgba(0, 0, 0, 0.93);
     width:40vw;
-} */
+}
 
 .CodeMirror-gutters {
     border-right: none;
-   background-color:#1d1e22;
+   background-color:#1f2227;
 }
 
 .CodeMirror{
     height: 83vh;
-    background: #1d1e22;
+    background: #1f2227;
     color: whitesmoke;
     letter-spacing: .03em;
     font-size:1.1em;
@@ -137,7 +135,7 @@ body, html {
     float:right;
     display: inline-block;
     text-align: center;
-    background:#1d1e22;
+    background:#1f2227;
 }
 
 #visualizer{
@@ -182,6 +180,7 @@ textarea#code_frag.code_input {
     text-align: left;
     height: fit-content;
     color:white;
+    width: 350px;
 }
 
 #code_frag_error_div {
@@ -234,6 +233,10 @@ img {vertical-align: middle;}
   right:70vw;
 }
 
+#title{
+    font-size:1.5em;
+}
+
 .prev {
     position: absolute;
     bottom: 3vh;
@@ -250,4 +253,18 @@ img {vertical-align: middle;}
 .prev:hover, .next:hover {
   background-color: #f1f1f1;
   color: black;
+}
+
+button#btnReset:hover{
+    background-color: hsl(0, 0%, 52%);
+
+}
+
+button#btnCompile:hover{
+    background-color: #398239;
+}
+
+
+.CodeMirror-cursor {
+    border-left: 1px solid white;
 }

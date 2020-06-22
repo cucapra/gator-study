@@ -19,6 +19,7 @@
   "homepage": "https://github.com/cucapra/gator-study#readme",
   "dependencies": {
     "codemirror": "^5.54.0",
+    "gl-matrix": "^3.3.0",
     "parcel-bundler": "^1.12.4"
   }
 }
