@@ -4,8 +4,23 @@
 // https://parceljs.org/javascript.html
 import fs from 'fs';
 
+var glm = require("gl-matrix");
+var mat4 = glm.mat4;
+var createOrbitCamera = require("orbit-camera");
+ 
+var camera = createOrbitCamera([Math.cos(1.5),  Math.sin(1.5), 1.5, // eye
+              0.0, 0.0,  0.0, // look at
+              0.0, 0.0, 1.5]);
+
+
+var xCoord = 0;
+var yCoord = 0;
+var mouseIsDown = false;
+
 const teapotData = fs.readFileSync('./models/teapot.txt');
 const cubeData = fs.readFileSync('./models/cube.txt');
+
+
 
 export function Renderer(canvasName) 
 {
@@ -149,7 +164,6 @@ var cm = document.querySelector('.CodeMirror').CodeMirror;
         data[k] = floatVals[k+1];
       }
     }
-    console.log(data);
     return data;
   }
 
@@ -161,8 +175,6 @@ var cm = document.querySelector('.CodeMirror').CodeMirror;
     mat4Perspective(projection, 45.0, w/h, 0.5, 4.0);
     //mat4Print(projection);
   }
-  
-
 
 
   //public 
@@ -170,21 +182,42 @@ var cm = document.querySelector('.CodeMirror').CodeMirror;
     gl.clearColor(0.0, 0.0, 0.0, 0.0);
     gl.clear(gl.COLOR_BUFFER_BIT);
     
-    // camera orbits in the z=1.5 plane
-    // and looks at the origin
-    // mat4LookAt replaces gluLookAt
-    var rad = Math.PI / 180.0 * (this.t);
-    var rady = Math.PI / 180.0 * (this.y);
+    viewMatrix = camera.view(modelview);
 
-  //  modelview = mat4Multiply(modelview, [1+this.z,1+this.z,1+this.z,1+this.z]);
+    var canvas = document.getElementById("myWebGLCanvas");
+    var scale = 1;
 
-    mat4LookAt(modelview,
-               1.5*Math.cos(rad),  1.5*Math.sin(rad), 1.5*Math.sin(rady), // eye
-               0.0, 0.0,  0.0, // look at
-               0.0, 0.0, 1.0); // up
+    function zoom(event) {
+      scale = event.deltaY * 0.01;
+      // Restrict scale
+      // scale = Math.min(Math.max(.125, scale), 4);
+      camera.zoom(scale * 0.001);
+    }
+
+  canvas.addEventListener( 'wheel', (e) => zoom(e), {passive: true})
+
+    canvas.onmousedown = function(e){
+        xCoord = e.x;
+        yCoord = e.y;
+        mouseIsDown = true;
+      }
+
+    canvas.onmouseup = function(e){
+        mouseIsDown = false;
+    }
+      
+    canvas.onmousemove = function(e){
+        if(!mouseIsDown) return;
+
+        camera.rotate([(e.x-1000)/canvas.width-0.5, e.y/canvas.height-0.5],
+                      [(xCoord-1000)/canvas.width-0.5, yCoord/canvas.height-0.5])
+
+        xCoord = e.x;
+        yCoord = e.y;
+        return false;
+    }
     
-    //mat4Print(modelview);
-    
+
     var modelviewInv = new Float32Array(16);
     var normalmatrix = new Float32Array(16);
     mat4Invert(modelview, modelviewInv);
@@ -224,14 +257,6 @@ var cm = document.querySelector('.CodeMirror').CodeMirror;
 
     var error = false;
 
-    // check for errors
-    // if(!gl.getShaderParameter(vertID, gl.COMPILE_STATUS)) {
-    //   document.getElementById("code_vert_error").innerHTML = "invalid vertex shader : " + gl.getShaderInfoLog(vertID);
-    //   error = true;
-    // }
-    // else{
-    //   document.getElementById("code_vert_error").innerHTML = "";
-    // }
 
     if(!gl.getShaderParameter(fragID, gl.COMPILE_STATUS)) {
       document.getElementById("code_frag_error").innerHTML = "invalid fragment shader : " + gl.getShaderInfoLog(fragID);
@@ -274,21 +299,6 @@ var cm = document.querySelector('.CodeMirror').CodeMirror;
     attenuationLoc = gl.getUniformLocation(progID, "attenuationVal");
 
   }
-
-  function vec3Dot(a, b) {
-    return a[0]*b[0] + a[1]*b[1] + a[2]*b[2];
-  }
-
-  function vec3Cross(a, b, res) {
-    res[0] = a[1] * b[2]  -  b[1] * a[2];
-    res[1] = a[2] * b[0]  -  b[2] * a[0];
-    res[2] = a[0] * b[1]  -  b[0] * a[1];
-  }
-
-  function vec3Normalize(a) {
-    var mag = Math.sqrt(a[0] * a[0]  +  a[1] * a[1]  +  a[2] * a[2]);
-    a[0] /= mag; a[1] /= mag; a[2] /= mag;
-  } 
   
   function mat4Identity(a) {
     // Adrian commented this out because he doesn't understand it??? Here `a`
@@ -298,17 +308,6 @@ var cm = document.querySelector('.CodeMirror').CodeMirror;
     for (var i = 0; i < 4; ++i) a[i + i * 4] = 1.0;
   }
 
-  function mat4Multiply(a, b, res) {
-    for (var i = 0; i < 4; ++i) {
-      for (var j = 0; j < 4; ++j) {
-        res[j*4 + i] = 0.0;
-        for (var k = 0; k < 4; ++k) {
-          res[j*4 + i] += a[k*4 + i] * b[j*4 + k];
-        }
-      }
-    }
-  }
-  
   function mat4Perspective(a, fov, aspect, zNear, zFar) {
     var f = 1.0 / Math.tan (fov/2.0 * (Math.PI / 180.0));
     mat4Identity(a);
@@ -318,59 +317,6 @@ var cm = document.querySelector('.CodeMirror').CodeMirror;
     a[3 * 4 + 2] = (2.0 * zFar * zNear) / (zNear - zFar);
     a[2 * 4 + 3] = -1.0;
     a[3 * 4 + 3] = 0.0;
-  }
-  
-  function  mat4LookAt(viewMatrix,
-      eyeX, eyeY, eyeZ,
-      centerX, centerY, centerZ,
-      upX, upY, upZ) {
-
-    var dir = new Float32Array(3);
-    var right = new Float32Array(3);
-    var up = new Float32Array(3);
-    var eye = new Float32Array(3);
-
-    up[0]=upX; up[1]=upY; up[2]=upZ;
-    eye[0]=eyeX; eye[1]=eyeY; eye[2]=eyeZ;
-
-    dir[0]=centerX-eyeX; dir[1]=centerY-eyeY; dir[2]=centerZ-eyeZ;
-    vec3Normalize(dir);
-    vec3Cross(dir,up,right);
-    vec3Normalize(right);
-    vec3Cross(right,dir,up);
-    vec3Normalize(up);
-    // first row
-    viewMatrix[0]  = right[0];
-    viewMatrix[4]  = right[1];
-    viewMatrix[8]  = right[2];
-    viewMatrix[12] = -vec3Dot(right, eye);
-    // second row
-    viewMatrix[1]  = up[0];
-    viewMatrix[5]  = up[1];
-    viewMatrix[9]  = up[2];
-    viewMatrix[13] = -vec3Dot(up, eye);
-    // third row
-    viewMatrix[2]  = -dir[0];
-    viewMatrix[6]  = -dir[1];
-    viewMatrix[10] = -dir[2];
-    viewMatrix[14] =  vec3Dot(dir, eye);
-    // forth row
-    viewMatrix[3]  = 0.0;
-    viewMatrix[7]  = 0.0;
-    viewMatrix[11] = 0.0;
-    viewMatrix[15] = 1.0;
-  }
-  
-  function mat4Print(a) {
-    // opengl uses column major order
-    var out = "";
-    for (var i = 0; i < 4; ++i) {
-      for (var j = 0; j < 4; ++j) {
-        out += a[j * 4 + i] + " ";
-      }
-      out += "\n";
-    }
-    alert(out);
   }
   
   function mat4Transpose(a, transposed) {
