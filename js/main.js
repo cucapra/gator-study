@@ -26,9 +26,8 @@ function updateRenderer() {
 var interval = setInterval(timerFunc, 40);
 
 function timerFunc() {
-  var offset = 50.0;
-  renderer.t += offset;
-  console.log(renderer.t);
+  // var offset = 50.0;
+  // renderer.t += offset;
   renderer.display();
 }
 
