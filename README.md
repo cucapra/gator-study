@@ -14,6 +14,6 @@ Try typing `npm start` to start the [Parcel][] server.
 
 If you edit the gator executable and need to rebuild the js file, in your gator submodule, enter these commands:
 
-` dune build bin/gatorc.bc.js `
+` dune build bin/gatorc.bc.js ` and then 
 ` node _build/default/bin/gatorc.bc.js `
 
