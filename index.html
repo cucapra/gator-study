@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -10,90 +11,48 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <link rel="stylesheet" href="node_modules/codemirror/lib/codemirror.css">
 
-        <link rel = "stylesheet" type = "text/css" href = "./css/styles.css" />
         <!-- <script src="/l/gatorc.bc.js"></script> -->
+        <link rel = "stylesheet" type = "text/css" href = "./css/startpage.css" />
+        <script language="JavaScript" type="text/javascript" src="./js/start_page.js"></script>
 
-        <script language="JavaScript" type="text/javascript" src="./js/main.js"></script>
+        <!-- <script language="JavaScript" type="text/javascript" src="./js/main.js"></script> -->
 
     </head>
 
     <body>
-        <div id="headWrapper">
-            <p>Graphics Programming Tutorial</p>
-        </div>
-        <div id = "main">
-                <div class="dividers"></div>
-        <div id="tutorial" class="panel">
-        <div class="buttonBar" id="tutorialHeader">
-            <p>Tutorial</p>
-        </div>
-                <div class="slideshow-container">
-                    <div id="tutorialMain">
-                        <p id="title">Phong Lighting</p>
-                        <p id="tutorialText">to get started press the next button this is a phong model</p>
-                   </div>
-                    <div class="mySlides2" display="block">
-                    </div>       
+            <div class="home">
+                    <h1>Graphics Programming Tutorial</h1>
+                    <div id="grid">
+                      <div class="ui equal width grid">
+                        <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+                                <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+                                        <a href="/survey.html"> <button class = "ui button" id="new_user"> New User</button></a>
+                                
+                                
+                                </div> 
+                             </div>
+                             <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+                                    <button class = "ui button" id="returning_user"> Returning User </button>
+                            </div>
 
-                    </div>
-                    <button class="prev" id="prev">&#10094;</button>
-                    <button class="next" id="next">&#10095;</button>   
-            </div>
-            <div class="dividers"></div>
-            <!-- <div id="editorHeader"><div> -->
-            <div id="notTutorial"> 
+                        
+                            <div id="myModal" class="modal">
 
-            <div id="editor" class="panel">
-            <div class="buttonBar">
-                    <div id="buttons">
-    
-                    <button type="button" id="btnReset">Reset Code</button>
-                    <button type="button" id="btnCompile">Compile</button>
-
-                    </div>
-            </div>
-            </div> 
-            </div>
-            <div class="dividers"></div>
-            <div class="output panel">
-            <div class="buttonBar">
-                    <select id="select_id2">
-                            <option value="teapot">Teapot</option>
-                            <option value="cube">Cube</option>
-                        </select>
-            </div>
-                <canvas id="myWebGLCanvas" height="350px" width="350px";>Your browser does not support the canvas element</canvas>
-            
-                <textarea cols="40" rows="10" class="code_input_vert" id="code_vert">
-                    
-                    attribute vec3 inputPosition;
-                    attribute vec2 inputTexCoord;
-                    attribute vec3 inputNormal;
-                    
-                    uniform mat4 projection, modelview, normalMat;
-                    
-                    varying vec3 normalInterp;
-                    varying vec3 vertPos;
-                    
-                    void main(){
-                        gl_Position = projection * modelview * vec4(inputPosition, 1.0);
-                        vec4 vertPos4 = modelview * vec4(inputPosition, 1.0);
-                        vertPos = vec3(vertPos4) / vertPos4.w;
-                        normalInterp = vec3(normalMat * vec4(inputNormal, 0.0));
-                    }      
-
-                </textarea>      
-                <!-- <p id="code_vert_error" style="width: 200px;"></p> -->
-                <div id="code_frag_error_div" style="display: none;">
-                    <p id="code_frag_error"></p>
-                </div>
-        
-
-            </div>
-            <div class="dividers"></div>
-        </div>
-        </div>
-            <div id="footWrapper"></div>
-    </body>
-
+                                    <!-- Modal content -->
+                                    <div class="modal-content">
+                                      <span class="close">&times;</span>
+                                      <h2>Enter User ID<h2>
+                                        
+                                        <a href="/gpt.html"><button>submit</button></a>
+                                        <!-- <form action="/gpt.html">
+                                                <input type="text" id="userid" name="userid">
+                                                <input type="submit" value="Submit">
+                                        </form> -->
+                                    </div>
+                                  
+                                  </div>
+                      </div>
+                
+             </div>
+       </body>
 </html>

@@ -18,10 +18,15 @@
   },
   "homepage": "https://github.com/cucapra/gator-study#readme",
   "dependencies": {
+    "ajax": "0.0.4",
     "codemirror": "^5.54.0",
+    "django": "^1.0.0",
     "gl-matrix": "^3.3.0",
+    "idb": "^5.0.4",
+    "mysql": "github:mysqljs/mysql",
     "orbit-camera": "^1.0.0",
-    "parcel-bundler": "^1.12.4"
+    "parcel-bundler": "^1.12.4",
+    "python-shell": "^2.0.1"
   },
   "devDependencies": {
     "parcel-plugin-html-externals": "^0.2.0"

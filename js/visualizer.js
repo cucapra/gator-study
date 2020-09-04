@@ -7,11 +7,11 @@ import fs from 'fs';
 var glm = require("gl-matrix");
 var mat4 = glm.mat4;
 var createOrbitCamera = require("orbit-camera");
+
  
 var camera = createOrbitCamera([Math.cos(1.5),  Math.sin(1.5), 1.5, // eye
               0.0, 0.0,  0.0, // look at
               0.0, 0.0, 1.5]);
-
 
 var xCoord = 0;
 var yCoord = 0;
@@ -19,8 +19,6 @@ var mouseIsDown = false;
 
 const teapotData = fs.readFileSync('./models/teapot.txt');
 const cubeData = fs.readFileSync('./models/cube.txt');
-
-
 
 export function Renderer(canvasName) 
 {
