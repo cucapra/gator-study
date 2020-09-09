@@ -3,10 +3,16 @@ import { setup } from './text_editor.js';
 
 import { Tutorial } from './tutorial.js';
 
+import mysql from 'mysql';
+
+// import { gator_ocaml } from "../gatorc.bc.js";
+
 var renderer = 0;
 var tutorial = 0;
 var currStep = 0;
 var totalSteps = 3;
+
+var cm;
 
 
 
@@ -27,6 +33,34 @@ function updateRenderer() {
 //  var fragSrc = document.getElementById("code_frag").value;
   renderer.updateShader();
   renderer.display();
+
+}
+
+function compile() {
+
+  //do we want more information?
+  // eg. model type and if code was reset?
+
+  renderer.updateShader();
+  renderer.display();
+
+  const data = JSON.parse(localStorage.getItem('user_data'));
+  var time = new Date().getTime();
+
+  var tutorial_array= data.tutorial_step;
+  var code_array = data.code;
+  var time_array = data.compile_time;
+  var error_array = data.error;
+
+
+  tutorial_array.push()
+  code_array.push(cm.getValue());
+  time_array.push(time);
+  error_array.push(document.getElementById("code_frag_error").innerHTML);
+
+  localStorage.setItem('user_data', JSON.stringify({user_id: data.user_id, tutorial_type: data.tutorial_type, tutorial_step:[], compile_time:time_array, code:code_array, error:error_array}))
+
+  console.log(JSON.parse(localStorage.getItem('user_data')));
 }
 
 var interval = setInterval(timerFunc, 40);
@@ -69,46 +103,19 @@ function resetCode(){
 
 function newUser(){
 
-  var request = indexedDB.open("users_data");
+  localStorage.clear();
 
-  request.onupgradeneeded = function() {
-  // The database did not previously exist, so create object stores and indexes.
-  var db = request.result;
-  var store = db.createObjectStore("users", {keyPath: "user_id", unique: true});
-  var titleIndex = store.createIndex("by_compile", "compile");
-  var authorIndex = store.createIndex("by_tutorial_step", "tutorial_step");
-
+  //add random id for user
   var random_id = Math.floor(100000 + Math.random() * 900000);
+  var chosen_tutorial = Math.random() < 0.5 ? "gator" : "glsl";
+
+  console.log("hey");
+  console.log(random_id);
+
+  localStorage.setItem('user_data', JSON.stringify({user_id: random_id, tutorial_type: chosen_tutorial, tutorial_step:[], compile_time:[], code:[], error:[]}));
   // Populate with initial data.
-  store.put({user_id: random_id, compile: {}, tutorial_step: 0});
-
-  };
-  
-
-  request.onsuccess = function() {
-    console.log("success");
-    var da = request.result;
-    console.log(da);
-  };
-
-
-
-
-
-  
+  console.log(localStorage.getItem('user_data'));
 }
-
-
-// function getData() {
-
-//   var request = indexedDB.open("users_data");
-
-
-//   var db = request.result;
-//   // open a read/write db transaction, ready for retrieving the data
-
-
-// };
 
 
 
@@ -118,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // And these ones replace onclick and onchange handlers in the HTML.
   document.getElementById("btnCompile").
-    addEventListener('click', updateRenderer);
+    addEventListener('click', compile);
   document.getElementById("select_id2").
     addEventListener('change', modelChanged);
   document.getElementById("btnReset").
@@ -144,6 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   newTutorial();
 
-  
+  cm = document.querySelector('.CodeMirror').CodeMirror;
+
 
 });
