@@ -5,7 +5,7 @@ import { Tutorial } from './tutorial.js';
 
 import mysql from 'mysql';
 
-// import { gator_ocaml } from "../gatorc.bc.js";
+//import { gator_ocaml } from "../l/gatorc.bc.js";
 
 var renderer = 0;
 var tutorial = 0;
