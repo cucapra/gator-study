@@ -29,9 +29,16 @@
     "python-shell": "^2.0.1"
   },
   "devDependencies": {
-    "parcel-plugin-html-externals": "^0.2.0"
+    "parcel-plugin-html-externals": "^0.2.0",
+    "parcel-plugin-static-files-copy": "^2.5.0"
   },
   "externals": {
-    "/l/gatorc.bc.js": false
+    "l/*": false
+  },
+  "staticFiles": {
+    "staticPath": [{
+      "staticPath": "l",
+      "staticOutDir": "l"
+    }]
   }
 }

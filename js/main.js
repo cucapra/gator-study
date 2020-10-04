@@ -5,8 +5,6 @@ import { Tutorial } from './tutorial.js';
 
 import mysql from 'mysql';
 
-//import { gator_ocaml } from "../l/gatorc.bc.js";
-
 var renderer = 0;
 var tutorial = 0;
 var currStep = 0;
@@ -16,7 +14,7 @@ var cm;
 
 
 
-// console.log(gator_ocaml.f("void main() {}"));
+console.log(gator.f("void main() {}"));
 
 function run() {
  // var vertSrc = document.getElementById("code_vert").value;
