@@ -3,7 +3,6 @@ import { setup } from './text_editor.js';
 
 import { Tutorial } from './tutorial.js';
 
-import mysql from 'mysql';
 
 var renderer = 0;
 var tutorial = 0;
@@ -12,9 +11,7 @@ var totalSteps = 3;
 
 var cm;
 
-
-
-console.log(gator.f("void main() {}"));
+// console.log(gator.f("void main() {}"));
 
 function run() {
  // var vertSrc = document.getElementById("code_vert").value;
@@ -51,12 +48,12 @@ function compile() {
   var error_array = data.error;
 
 
-  tutorial_array.push()
+  tutorial_array.push();
   code_array.push(cm.getValue());
   time_array.push(time);
   error_array.push(document.getElementById("code_frag_error").innerHTML);
 
-  localStorage.setItem('user_data', JSON.stringify({user_id: data.user_id, tutorial_type: data.tutorial_type, tutorial_step:[], compile_time:time_array, code:code_array, error:error_array}))
+  localStorage.setItem('user_data', JSON.stringify({user_id: data.user_id, tutorial_type: data.tutorial_type, tutorial_step:[], compile_time:time_array, code:code_array, error:error_array}));
 
   console.log(JSON.parse(localStorage.getItem('user_data')));
 }
@@ -87,7 +84,7 @@ function newTutorial() {
 
     if(tutorial!= 0){
       tutorial.nextStep(currStep);
-      updateRenderer()
+      updateRenderer();
     }
     //set value of code
     }

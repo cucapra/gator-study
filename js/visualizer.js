@@ -4,11 +4,14 @@
 // https://parceljs.org/javascript.html
 import fs from 'fs';
 
-var glm = require("gl-matrix");
-var mat4 = glm.mat4;
-var createOrbitCamera = require("orbit-camera");
+import * as glm from "gl-matrix";
 
- 
+import createOrbitCamera from "orbit-camera";
+
+var mat4 = glm.mat4;
+
+
+
 var camera = createOrbitCamera([Math.cos(1.5),  Math.sin(1.5), 1.5, // eye
               0.0, 0.0,  0.0, // look at
               0.0, 0.0, 1.5]);
