@@ -17,3 +17,4 @@ If you edit the gator executable and need to rebuild the js file, in your gator 
 ` dune build bin/gatorc.bc.js ` and then 
 ` node _build/default/bin/gatorc.bc.js `
 
+Then place the created gator.bc.js file into the `/l` directory
