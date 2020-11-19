@@ -102,9 +102,9 @@ function newUser(){
 
   //add random id for user
   var random_id = Math.floor(100000 + Math.random() * 900000);
-  var chosen_tutorial = Math.random() < 0.5 ? "gator" : "glsl";
+  //var chosen_tutorial = Math.random() < 0.5 ? "gator" : "glsl";
 
-  console.log("hey");
+  //console.log("hey");
   console.log(random_id);
 
   localStorage.setItem('user_data', JSON.stringify({user_id: random_id, tutorial_type: chosen_tutorial, tutorial_step:[], compile_time:[], code:[], error:[]}));
