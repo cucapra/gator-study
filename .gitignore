@@ -5,5 +5,5 @@ node_modules/*
 package-lock.json
 yarn.lock
 __pycache__/
-templates/static/main_page.js
-templates/static/main_page.js.map
+templates/static/js/main_page.js
+templates/static/js/main_page.js.map
