@@ -20,12 +20,8 @@
   "homepage": "https://github.com/cucapra/gator-study#readme",
   "dependencies": {
     "ajax": "0.0.4",
-<<<<<<< HEAD
     "assets": "^3.0.1",
     "codemirror": "^5.58.3",
-=======
-    "codemirror": "^5.58.3",
->>>>>>> d47d10006766208b079dc2420be2b60372e50651
     "django": "^1.0.0",
     "flask": "^0.2.10",
     "gl-matrix": "^3.3.0",
