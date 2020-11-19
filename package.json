@@ -19,7 +19,7 @@
   "homepage": "https://github.com/cucapra/gator-study#readme",
   "dependencies": {
     "ajax": "0.0.4",
-    "codemirror": "^5.54.0",
+    "codemirror": "^5.58.3",
     "django": "^1.0.0",
     "gl-matrix": "^3.3.0",
     "idb": "^5.0.4",
@@ -36,9 +36,11 @@
     "l/*": false
   },
   "staticFiles": {
-    "staticPath": [{
-      "staticPath": "l",
-      "staticOutDir": "l"
-    }]
+    "staticPath": [
+      {
+        "staticPath": "l",
+        "staticOutDir": "l"
+      }
+    ]
   }
 }
