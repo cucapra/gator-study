@@ -58,6 +58,16 @@ def survey():
 	return render_template('layouts/survey.html',
 						   title="survey")
 
+@app.route('/cornell_student.html', methods=['GET'])
+def cornell_student():
+	return render_template('layouts/cornell_student.html',
+						   title="cornell_student")
+
+@app.route('/public_student.html', methods=['GET'])
+def public_student():
+	return render_template('layouts/public_student.html',
+						   title="public_student")
+
 
 if __name__ == "__main__":
 	app.run(host='0.0.0.0', port=5000)
