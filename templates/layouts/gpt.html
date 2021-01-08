@@ -9,16 +9,19 @@
         <title>Gator Study</title>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <link rel="stylesheet" href="node_modules/codemirror/lib/codemirror.css">
 
-        <link rel = "stylesheet" type = "text/css" href = "./css/styles.css" />
+        <link type = "text/css" rel="stylesheet" href= "{{ url_for('static', filename='css/codemirror.css') }}"/>
+
+        <link type = "text/css" rel="stylesheet" href= "{{ url_for('static', filename='css/styles.css') }}"/>
+
         <!-- <script src="/l/gatorc.bc.js"></script> -->
-
-        <script language="JavaScript" type="text/javascript" src="./js/main_page.js"></script>
+        <script src="{{ url_for('static', filename='js/main_page.js') }}"></script>
 
     </head>
 
     <body>
+
+
         <div id="headWrapper">
             <p>Graphics Programming Tutorial</p>
         </div>

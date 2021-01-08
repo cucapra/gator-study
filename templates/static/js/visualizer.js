@@ -2,15 +2,15 @@
 // can use it directly! It looks for `readFileSync` calls and gets the data at
 // compile time.
 // https://parceljs.org/javascript.html
-import fs from 'fs';
+import { fs } from 'fs';
 
-import * as glm from "gl-matrix";
-
-import createOrbitCamera from "orbit-camera";
-
+var glm = require("gl-matrix");
 var mat4 = glm.mat4;
+var createOrbitCamera = require("orbit-camera");
 
+ 
 
+console.log(gator.f("void main() {}"));
 
 var camera = createOrbitCamera([Math.cos(1.5),  Math.sin(1.5), 1.5, // eye
               0.0, 0.0,  0.0, // look at

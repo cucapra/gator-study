@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Create a simple CodeMirror instance -->
+
+        <title>Gator Study</title>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+        <!-- <link rel = "stylesheet" type = "text/css" href = "./static/css/startpage.css" /> -->
+        
+        <link type = "text/css" rel="stylesheet" href= "{{ url_for('static', filename='css/startpage.css') }}"/>
+
+        <script src="{{ url_for('static', filename='js/survey.js') }}" type="module"></script>
+
+    </head>
+
+    <body>
+        <div id="grid">
+                <h2 style="margin-top:10px;">Select the Appropriate Response</h1>
+
+            <div class="ui equal width grid">
+              <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+                      <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+                              <a href="/cornell_student.html"> 
+                                <button class = "ui button" id="new_user"> I am Cornell Student</button>
+                            </a>
+                      
+                      </div> 
+                   </div>
+
+                   <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+                    <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+                        <a href="/public_student.html"> 
+                            <button class = "ui button" id="new_user"> I am not a Cornell Student</button>
+                        </a>
+                    </div> 
+                </div>
+    </body>
+</html>

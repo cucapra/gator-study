@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Create a simple CodeMirror instance -->
+
+        <title>Gator Study</title>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <link type = "text/css" rel="stylesheet" href= "{{ url_for('static', filename='css/codemirror.css') }}"/>
+
+        <!-- <script src="./l/gatorc.bc.js"></script> -->
+
+        <link type = "text/css" rel="stylesheet" href= "{{ url_for('static', filename='css/startpage.css') }}"/>
+
+        <!-- <script language="JavaScript" type="text/javascript" src="./static/js/start_page.js"></script> -->
+        <script src="{{ url_for('static', filename='js/start_page.js') }}" type="text/javascript"></script>
+
+      
+
+        <!-- <script language="JavaScript" type="text/javascript" src="./js/main.js"></script> -->
+
+    </head>
+
+    <body>
+            <div class="home">
+                    <h1>Graphics Programming Tutorial</h1>
+                    <script src="./app.py"></script>
+                    <div id="grid">
+                      <div class="ui equal width grid">
+                        <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+                                <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+                                        <a href="/survey.html"> <button class = "ui button" id="new_user"> New User</button></a>
+                                
+                                
+                                </div> 
+                             </div>
+                             <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+                                    <button class = "ui button" id="returning_user"> Returning User </button>
+                            </div>
+
+                        
+                            <div id="myModal" class="modal">
+
+                                    <!-- Modal content -->
+                                    <div class="modal-content">
+                                      <span class="close">&times;</span>
+                                      <h2>Enter User ID<h2>
+                                        
+                                        
+                                        <a href="/gpt.html"><button>submit</button></a>
+                                        <!-- <form action="/gpt.html">
+                                                <input type="text" id="userid" name="userid">
+                                                <input type="submit" value="Submit">
+                                        </form> -->
+                                    </div>
+                                  
+                                  </div>
+                      </div>
+                
+             </div>
+       </body>
+</html>
