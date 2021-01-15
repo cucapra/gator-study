@@ -12,27 +12,30 @@
   // These are controlled by svelte
   let canvas: HTMLCanvasElement;
   let status = '';
-  let fragText: string;
-  let vertText: string;
 
-  // misc gl stuff
+  // misc stuff
   const teapotModel = glHelpers.parseOBJ(teapotObj);
   let renderer: Renderer;
+  let shaders = {
+    frag: { text: '', last: '', changed: false },
+    vert: { text: '', last: '', changed: false },
+  }
 
   // Run on component start, not in SSR
   if (window.routify.inBrowser) {
     onMount(async () => {
       // Initialize the GL context. `canvas` is only defined here
       renderer = new Renderer(canvas);
-      let frag: string;
-      let vert: string;
       if (gator) {
-        ({ frag, vert } = await gatorToGLSL({frag: fragText, vert: vertText}));
+        shaders.frag.last = await gatorToGLSL('FRAGMENT', shaders.frag.text);
+        shaders.vert.last = await gatorToGLSL('VERTEX', shaders.vert.text);
       } else {
-        frag = fragText;
-        vert = vertText;
+        shaders.frag.last = shaders.frag.text;
+        shaders.vert.last = shaders.vert.text;
       }
-      renderer.compile(frag, vert, teapotModel);
+      shaders.frag.changed = false;
+      shaders.vert.changed = false;
+      renderer.compile(shaders.frag.last, shaders.vert.last, teapotModel);
       renderer.startRender();
     });
   }
@@ -41,15 +44,20 @@
   const compile = async () => {
     renderer.stopRender();
     try {
-      let frag: string;
-      let vert: string;
       if (gator) {
-        ({ frag, vert } = await gatorToGLSL({frag: fragText, vert: vertText}));
+        if (shaders.frag.changed) {
+          shaders.frag.last = await gatorToGLSL('FRAGMENT', shaders.frag.text);
+          shaders.frag.changed = false;
+        }
+        if (shaders.vert.changed) {
+          shaders.vert.last = await gatorToGLSL('VERTEX', shaders.vert.text);
+          shaders.vert.changed = false;
+        }
       } else {
-        frag = fragText;
-        vert = vertText;
+        shaders.frag.last = shaders.frag.text;
+        shaders.vert.last = shaders.vert.text;
       }
-      renderer.compile(frag, vert, teapotModel);
+      renderer.compile(shaders.frag.last, shaders.vert.last, teapotModel);
     } catch (e) {
       status = e;
       return;
@@ -63,8 +71,14 @@
   // do something like `{frag, vert} = $shaderTexts` instead of
   // the whole block below, but that's not working for some reason.
   const unsubscribe = shaderTexts.subscribe(text => {
-    fragText = text.frag;
-    vertText = text.vert;
+    if (shaders.frag.text !== text.frag) {
+      shaders.frag.text = text.frag;
+      shaders.frag.changed = true;
+    }
+    if (shaders.vert.text !== text.vert) {
+      shaders.vert.text = text.vert;
+      shaders.vert.changed = true;
+    }
   });
   onDestroy(unsubscribe);
 </script>
@@ -78,6 +92,12 @@
     border-radius: 0.2rem;
     padding: 0.5em;
     border: 0;
+    background-color: #3282b8;
+    color: white;
+    &:hover {
+      background-color: darken(#3282b8, 10%);
+      cursor: pointer;
+    }
   }
 </style>
 

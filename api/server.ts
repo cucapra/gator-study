@@ -23,22 +23,12 @@ function gatorc(content: string): Promise<string> {
   })
 }
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(bodyParser.text());
 
 // serve gator compilation POST
 app.post('/compile', async (req, res) => {
-  let frag = {success: true, content: ''};
-  let vert = {success: true, content: ''};
-  if (req.body.frag) {
-    frag = await gatorc(req.body.frag)
-      .then(s => ({success: true, content: s}), e => ({success: false, content: e}))
-  }
-  if (req.body.vert) {
-    vert = await gatorc(req.body.vert)
-      .then(s => ({success: true, content: s}), e => ({success: false, content: e}))
-  }
-  res.send({ frag, vert })
+  // have it send 202 on error so we can tell on client
+  gatorc(req.body).then(glsl => res.send(glsl), e => res.status(202).send(e));
 })
 
 // else serve assets, if they exist
