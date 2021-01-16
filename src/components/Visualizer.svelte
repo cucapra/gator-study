@@ -4,6 +4,7 @@
   import * as glHelpers from '../modules/glHelpers';
   import Renderer from '../modules/renderer';
   import teapotObj from '../../assets/models/teapot.obj';
+  import cubeObj from '../../assets/models/cube.obj';
 
   // If this component is initialized with the gator prob as `false`,
   // it will just act as vanilla webgl code
@@ -12,9 +13,13 @@
   // These are controlled by svelte
   let canvas: HTMLCanvasElement;
   let status = '';
+  let selected: string;
 
   // misc stuff
-  const teapotModel = glHelpers.parseOBJ(teapotObj);
+  const models = {
+    teapot: glHelpers.parseOBJ(teapotObj),
+    cube: glHelpers.parseOBJ(cubeObj),
+  }
   let renderer: Renderer;
   let shaders = {
     frag: { text: '', last: '', changed: false },
@@ -35,7 +40,7 @@
       }
       shaders.frag.changed = false;
       shaders.vert.changed = false;
-      renderer.compile(shaders.frag.last, shaders.vert.last, teapotModel);
+      renderer.compile(shaders.frag.last, shaders.vert.last, models[selected]);
       renderer.startRender();
     });
   }
@@ -57,7 +62,7 @@
         shaders.frag.last = shaders.frag.text;
         shaders.vert.last = shaders.vert.text;
       }
-      renderer.compile(shaders.frag.last, shaders.vert.last, teapotModel);
+      renderer.compile(shaders.frag.last, shaders.vert.last, models[selected]);
     } catch (e) {
       status = e;
       return;
@@ -65,6 +70,9 @@
     renderer.startRender();
     status = 'success';
   };
+
+  // `$:` makes svelte rerun this whenever something on the line (i.e., models[selected]) changes
+  $: models[selected] && compile();
 
   // Whenever the shaderTexts store updates, this also updates the 
   // fragText and vertText variables. I'm supposed to be able to just
@@ -90,7 +98,7 @@
   }
   button {
     border-radius: 0.2rem;
-    padding: 0.5em;
+    padding: 0.56em;
     border: 0;
     background-color: #3282b8;
     color: white;
@@ -99,9 +107,22 @@
       cursor: pointer;
     }
   }
+  select {
+    border-radius: 0.2rem;
+    padding: 0.5em 1.5em 0.5em 0.5em;
+    border: 0;
+    appearance: none;
+    background: url('data:image/svg+xml;utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>') 100% 50% no-repeat white;
+  }
 </style>
 
+<div>{status}</div>
+
 <button on:click={compile}>Compile</button>
-<span>{status}</span>
+<select bind:value={selected}>
+  {#each Object.keys(models) as name}
+    <option value={name}>{name.charAt(0).toUpperCase() + name.slice(1)}</option>
+  {/each}
+</select>
 <canvas bind:this={canvas}></canvas>
 

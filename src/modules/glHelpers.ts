@@ -113,7 +113,7 @@ function parseOBJ(text: string) : Model {
   const posLength = positions.length;
   const normLength = normals.length;
   if (posLength !== normLength) {
-    console.warn('does this ever happen? probably not. should prob check it out tho idk');
+    console.warn('not as many normals as positions which is sort of weird?');
   } 
   return {
     positions,
