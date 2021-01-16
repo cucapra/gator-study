@@ -22,8 +22,8 @@
   }
   let renderer: Renderer;
   let shaders = {
-    frag: { text: '', last: '', changed: false },
-    vert: { text: '', last: '', changed: false },
+    frag: { text: '', last: '', changed: true },
+    vert: { text: '', last: '', changed: true },
   }
 
   // Run on component start, not in SSR
@@ -31,23 +31,13 @@
     onMount(async () => {
       // Initialize the GL context. `canvas` is only defined here
       renderer = new Renderer(canvas);
-      if (gator) {
-        shaders.frag.last = await gatorToGLSL('FRAGMENT', shaders.frag.text);
-        shaders.vert.last = await gatorToGLSL('VERTEX', shaders.vert.text);
-      } else {
-        shaders.frag.last = shaders.frag.text;
-        shaders.vert.last = shaders.vert.text;
-      }
-      shaders.frag.changed = false;
-      shaders.vert.changed = false;
-      renderer.compile(shaders.frag.last, shaders.vert.last, models[selected]);
-      renderer.startRender();
+      compile();
     });
   }
 
   // Run to activate new shader code
   const compile = async () => {
-    renderer.stopRender();
+    renderer && renderer.stopRender();
     try {
       if (gator) {
         if (shaders.frag.changed) {

@@ -6,13 +6,14 @@ const app = express();
 
 const TEMPLATE = 'dist/__app.html';
 const PORT = 5000;
+const GATOR_DIR = `${__dirname}/../dist/stdlib`;
 
 // helper function to compile gator
-// this could be vastly simplified with some changes to the gator executable
+// this could be vastly simplified/improved with some changes to the gator executable
 function gatorc(content: string): Promise<string> {
   return new Promise((resolve, reject) => {
-    fs.writeFile('/tmp/gator.lgl', content, () => {});
-    child_process.execFile('gatorc', ['/tmp/gator.lgl'], (e, stdout, stderr) => {
+    fs.writeFile(GATOR_DIR + '/tmp/gator.lgl', content, () => {});
+    child_process.execFile('gatorc', [GATOR_DIR + '/tmp/gator.lgl'], (e, stdout, stderr) => {
       if (stderr) {
         reject(stderr);
       }

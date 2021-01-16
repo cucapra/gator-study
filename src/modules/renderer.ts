@@ -21,8 +21,8 @@ interface Attributes {
 }
 interface Uniforms {
   projectionMatrix: WebGLUniformLocation;
-  modelViewMatrix: WebGLUniformLocation;
-  normalMatrix: WebGLUniformLocation;
+  viewMatrix: WebGLUniformLocation;
+  modelMatrix: WebGLUniformLocation;
 }
 
 class Renderer {
@@ -34,8 +34,8 @@ class Renderer {
   attributes: Attributes = {};
   lastTime = performance.now();
   projectionMatrix = mat4.create();
-  modelViewMatrix = mat4.create();
-  normalMatrix = mat4.create();
+  viewMatrix = mat4.create();
+  modelMatrix = mat4.create();
   mouseDown = false;
 
   constructor(canvas: HTMLCanvasElement) {
@@ -44,19 +44,16 @@ class Renderer {
 
     // Set up matrices
     // Perspective
-    mat4.perspective(this.projectionMatrix, (60 * Math.PI / 180), canvas.clientWidth / canvas.clientHeight, 1, 12);
-    // model view
-    mat4.lookAt(this.modelViewMatrix, [0, 4, 7], [0, 0, 0], [0, 1, 0]);
-    // Normal
-    mat4.invert(this.normalMatrix, this.modelViewMatrix);
-    mat4.transpose(this.normalMatrix, this.normalMatrix);
+    mat4.perspective(this.projectionMatrix, (60 * Math.PI / 180), canvas.clientWidth / canvas.clientHeight, 1, 50);
+    // view
+    mat4.lookAt(this.viewMatrix, [0, 4, 7], [0, 0, 0], [0, 1, 0]);
 
     // Set necessary event listeners
     canvas.addEventListener('wheel', e => {
       if (e.deltaY !== 0) {
         e.preventDefault();
         const change = 1 + e.deltaY * 0.01;
-        mat4.scale(this.modelViewMatrix, this.modelViewMatrix, [change, change, change]);
+        mat4.scale(this.viewMatrix, this.viewMatrix, [change, change, change]);
       }
     });
 
@@ -70,8 +67,8 @@ class Renderer {
     });
     canvas.addEventListener('mousemove', e => {
       if (this.mouseDown) {
-        mat4.rotateY(this.modelViewMatrix, this.modelViewMatrix, e.movementX * 0.01);
-        mat4.rotateX(this.modelViewMatrix, this.modelViewMatrix, e.movementY * 0.01);
+        mat4.rotateY(this.viewMatrix, this.viewMatrix, e.movementX * 0.01);
+        mat4.rotateX(this.viewMatrix, this.viewMatrix, e.movementY * 0.01);
       }
     });
   }
@@ -109,8 +106,8 @@ class Renderer {
     // Enable uniforms
     this.uniforms = {
       projectionMatrix: this.gl.getUniformLocation(this.program, 'projectionMatrix'),
-      modelViewMatrix: this.gl.getUniformLocation(this.program, 'modelViewMatrix'),
-      normalMatrix: this.gl.getUniformLocation(this.program, 'normalMatrix'),
+      modelMatrix: this.gl.getUniformLocation(this.program, 'modelMatrix'),
+      viewMatrix: this.gl.getUniformLocation(this.program, 'viewMatrix'),
     };
   }
 
@@ -154,8 +151,8 @@ class Renderer {
     
     // Set up uniform matrices
     this.gl.uniformMatrix4fv(this.uniforms.projectionMatrix, false, this.projectionMatrix);
-    this.gl.uniformMatrix4fv(this.uniforms.modelViewMatrix, false, this.modelViewMatrix);
-    this.gl.uniformMatrix4fv(this.uniforms.normalMatrix, false, this.normalMatrix);
+    this.gl.uniformMatrix4fv(this.uniforms.viewMatrix, false, this.viewMatrix);
+    this.gl.uniformMatrix4fv(this.uniforms.modelMatrix, false, this.modelMatrix);
 
     // Draw it
     this.gl.drawArrays(this.gl.TRIANGLES, 0, this.modelLength / 3);
