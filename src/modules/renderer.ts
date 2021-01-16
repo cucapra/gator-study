@@ -44,9 +44,9 @@ class Renderer {
 
     // Set up matrices
     // Perspective
-    mat4.perspective(this.projectionMatrix, (60 * Math.PI / 180), canvas.clientWidth / canvas.clientHeight, 1, 50);
+    mat4.perspective(this.projectionMatrix, (45 * Math.PI / 180), canvas.clientWidth / canvas.clientHeight, 1, 20);
     // view
-    mat4.lookAt(this.viewMatrix, [0, 4, 7], [0, 0, 0], [0, 1, 0]);
+    mat4.lookAt(this.viewMatrix, [1, 4, 5], [0, 0, 0], [0, 1, 0]);
 
     // Set necessary event listeners
     canvas.addEventListener('wheel', e => {

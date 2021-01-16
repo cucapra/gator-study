@@ -17,7 +17,7 @@ const { distDir } = getConfig() // use Routify's distDir for SSOT
 const assetsDir = 'assets'
 const buildDir = `dist/build`
 const isNollup = !!process.env.NOLLUP
-const production = !process.env.ROLLUP_WATCH;
+const production = !process.env.ROLLUP_WATCH
 
 // clear previous builds
 removeSync(distDir)
@@ -36,7 +36,6 @@ const serve = () => ({
     }
 })
 const copyToDist = () => ({ writeBundle() { copySync(assetsDir, distDir) } })
-
 
 export default {
     preserveEntrySignatures: false,
@@ -61,10 +60,7 @@ export default {
         }),
         typeCheck(),
         commonjs(),
-		typescript({
-			sourceMap: !production,
-			inlineSources: !production
-		}),
+		typescript(),
 
         production && terser(),
         !production && !isNollup && serve(),

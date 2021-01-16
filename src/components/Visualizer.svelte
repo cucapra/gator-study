@@ -84,7 +84,10 @@
 <style>
   canvas {
     display: block;
+    position: absolute;
     width: 100%;
+    top: 50%;
+    transform: translate(0, -50%);
   }
   button {
     border-radius: 0.2rem;
@@ -104,9 +107,14 @@
     appearance: none;
     background: url('data:image/svg+xml;utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>') 100% 50% no-repeat white;
   }
+  h4 {
+    margin-bottom: 0.5em;
+  }
+  p {
+    margin: 0.5em 0;
+  }
 </style>
 
-<div>{status}</div>
 
 <button on:click={compile}>Compile</button>
 <select bind:value={selected}>
@@ -114,5 +122,13 @@
     <option value={name}>{name.charAt(0).toUpperCase() + name.slice(1)}</option>
   {/each}
 </select>
+<div>
+  <h4>Status:</h4>
+  {#if status === 'success'}
+    <p style="color:lightgreen;">{status}</p>
+  {:else}
+    <p style="color:red;">{status}</p>
+  {/if}
+</div>
 <canvas bind:this={canvas}></canvas>
 

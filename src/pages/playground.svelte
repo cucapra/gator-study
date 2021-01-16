@@ -14,32 +14,72 @@
 </script>
 
 <style>
-  #playground-content {
+  #playground {
+    height: 100vh;
+    padding: 0 1rem 3rem;
+    box-sizing: border-box;
     display: grid;
     grid-template: 
-      "vert prev" 1fr
-      "frag prev" 1fr
+      "title title" auto
+      "vert-title vert-title" auto
+      "vert prev" minmax(0, 1fr)
+      "frag-title prev" auto
+      "frag prev" minmax(0, 1fr)
       / auto max(40%, 20rem);
     grid-gap: 1rem;
 
     #frag {
       grid-area: frag;
     }
+    #vert-title {
+      grid-area: vert-title;
+    }
+    #frag-title {
+      grid-area: frag-title;
+    }
     #vert {
       grid-area: vert;
     }
     #prev {
       grid-area: prev;
-      align-self: center;
+      position: relative;
+    }
+    h3 {
+      margin: 0.2em;
     }
   }
 </style>
 
-<h2>Playground</h2>
+<div id="playground">
+<h2>Gator Playground</h2>
 
-<div id="playground-content">
+<h3 id="vert-title">Vertex shader</h3>
+<span id="vert">
+<Editor value={`
+#"precision mediump float;";
+
+using "../glsl_defs.lgl";
+
+attribute vec3 position;
+attribute vec3 normal;
+
+varying vec3 vPosition;
+varying vec3 vNormal;
+
+uniform mat4 projectionMatrix;
+uniform mat4 viewMatrix;
+uniform mat4 modelMatrix;
+
+void main() {
+  vNormal = normal;
+  vPosition = position;
+  gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.);
+}
+`} onUpdate={vertCallback}/>
+</span>
+
+<h3 id="frag-title">Fragment shader</h3>
 <span id="frag">
-<h3>Fragment shader</h3>
 <Editor value={`
 #"precision mediump float;";
 
@@ -78,31 +118,6 @@ void main() {
     gl_FragColor = vec4(ambient + diffuse * diffColor + specular * specColor, 1.);
 }
 `} onUpdate={fragCallback}/>
-</span>
-
-<span id="vert">
-<h3>Vertex shader</h3>
-<Editor value={`
-#"precision mediump float;";
-
-using "../glsl_defs.lgl";
-
-attribute vec3 position;
-attribute vec3 normal;
-
-varying vec3 vPosition;
-varying vec3 vNormal;
-
-uniform mat4 projectionMatrix;
-uniform mat4 viewMatrix;
-uniform mat4 modelMatrix;
-
-void main() {
-  vNormal = normal;
-  vPosition = position;
-  gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.);
-}
-`} onUpdate={vertCallback}/>
 </span>
 
 <div id="prev">

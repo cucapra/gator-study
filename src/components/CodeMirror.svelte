@@ -33,9 +33,12 @@
 
 <style global>
   /* Just the CSS taken from CodeMirror repo */
+  .cm-container {
+    height: 100%;
+  }
   .CodeMirror {
       font-family: monospace;
-      height: 300px;
+      height: 100%;
       color: black;
       direction: ltr;
       position: relative;
@@ -590,5 +593,5 @@
   }
 </style>
 
-<div bind:this={cmContainer}>
+<div class="cm-container" bind:this={cmContainer}>
 </div>

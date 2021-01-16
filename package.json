@@ -16,7 +16,7 @@
       "dev": "run-p routify nollup",
       "dev:ssr": "run-p routify rollup",
       "server": "nodemon api/server.ts",
-      "dev:server": "run-s build server",
+      "dev:server": "run-s build:app server",
       "build": "run-s build:*",
       "build:app": "routify -b && rollup -c",
       "build:static": "spank",
