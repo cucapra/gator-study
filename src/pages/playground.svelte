@@ -121,7 +121,7 @@ void main() {
 </span>
 
 <div id="prev">
-  <Visualizer />
+  <Visualizer report={false}/>
 </div>
 </div>
 

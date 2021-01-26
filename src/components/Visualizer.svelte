@@ -93,15 +93,8 @@
     transform: translate(0, -50%);
   }
   button {
-    border-radius: 0.2rem;
     padding: 0.56em;
-    border: 0;
-    background-color: #3282b8;
-    color: white;
-    &:hover {
-      background-color: darken(#3282b8, 10%);
-      cursor: pointer;
-    }
+    display: inline;
   }
   select {
     border-radius: 0.2rem;

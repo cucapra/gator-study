@@ -4,6 +4,7 @@ import child_process from 'child_process';
 import fs from 'fs';
 import pg from 'pg';
 import formidable from 'express-formidable';
+import { customAlphabet } from 'nanoid';
 
 const app = express();
 
@@ -18,22 +19,17 @@ const pool = new pg.Pool({
 })
 
 // On start up we just add the tables if they don't exist yet
-pool.query(`CREATE TABLE IF NOT EXISTS participant(
+pool.query(`CREATE TABLE IF NOT EXISTS participants(
   part_id varchar(10) PRIMARY KEY,
   gator boolean,
   farthest smallint
 );
 CREATE TABLE IF NOT EXISTS data(
-  part_id varchar(10) REFERENCES participant(part_id),
+  part_id varchar(10) REFERENCES participants(part_id),
   image bytea,
   code text,
   time timestamp
 );`)
-  .then( // just have this temp here while working on user setup
-    pool
-      .query('INSERT INTO participant VALUES ($1, $2, $3) ON CONFLICT DO NOTHING', ['temp', true, 0])
-      .catch(e => console.error(e.stack))
-  )
   .catch(e => console.log(e));
 
 
@@ -76,11 +72,40 @@ app.put('/update', async (req, res) => {
   res.end();
 })
 
+const alphabet = '123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ';
+const nanoid = customAlphabet(alphabet, 10);
+
+app.use('/makeuser', bodyParser.json());
+app.get('/makeuser', async (req, res) => {
+
+  const part_id = nanoid();
+  const gator = Math.random() < 0.5;
+
+  pool
+    .query('INSERT INTO participants VALUES ($1, $2, 0)', [part_id, gator])
+    .catch(e => console.error(e.stack))
+
+  res.send({ part_id, gator });
+})
+
 // serve gator compilation PUT
 app.use('/compile', bodyParser.text());
 app.put('/compile', async (req, res) => {
   // have it send 202 on error so we can tell client something went wrong
   gatorc(req.body).then(glsl => res.send(glsl), e => res.status(202).send(e));
+})
+
+app.use('/get_stage', bodyParser.text());
+app.put('/get_stage', async (req, res) => {
+  pool
+    .query('SELECT farthest FROM participants WHERE part_id = $1', [req.body])
+    .then(r => {
+      if (r.rows.length) {
+        res.send(r.rows[0].farthest.toString());
+      } else {
+        res.send('notfound');
+      }
+    });
 })
 
 // else serve assets, if they exist
