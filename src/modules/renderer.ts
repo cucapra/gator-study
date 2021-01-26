@@ -1,4 +1,5 @@
 import * as glHelpers from './glHelpers';
+import { waitFor } from './utils';
 import type { Model } from './glHelpers';
 import { mat4 } from 'gl-matrix';
 
@@ -31,6 +32,8 @@ class Renderer {
   uniforms: Uniforms;
   modelLength: number;
   frame: number;
+  image: Blob;
+  needImage: boolean;
   attributes: Attributes = {};
   lastTime = performance.now();
   projectionMatrix = mat4.create();
@@ -111,6 +114,12 @@ class Renderer {
     };
   }
 
+  async getImage(): Promise<Blob> {
+    this.needImage = true;
+    await waitFor(_ => !this.needImage);
+    return this.image;
+  }
+
   // Starts a render loop
   startRender() {
     this.frame = requestAnimationFrame(this.render);
@@ -119,6 +128,11 @@ class Renderer {
   // Stops it
   stopRender() {
     cancelAnimationFrame(this.frame);
+  }
+
+  // Make canvas blank
+  clear() {
+    this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
   }
 
   // Arrow function so that `this` works
@@ -157,6 +171,12 @@ class Renderer {
     // Draw it
     this.gl.drawArrays(this.gl.TRIANGLES, 0, this.modelLength / 3);
 
+    if (this.needImage) {
+      this.gl.canvas.toBlob(b => {
+        this.image = b;
+        this.needImage = false;
+      });
+    }
     // AND DO IT AGAIN!!
     this.frame = requestAnimationFrame(this.render);
   }

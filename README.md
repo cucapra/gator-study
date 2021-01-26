@@ -9,6 +9,9 @@ This uses the [Svelte](https://svelte.dev/) framework for the frontend, with the
 
 First: `npm i`.
 
+Then, if you would like to use the database, make sure you have Postgres installed and do
+`npm run createdb`, which will create the database.
+
 To start the server, you probably want to do `npm run dev:server`, which compiles the
 Svelte components to static files, and starts the Express server. This does not have automatic
 reloading for client JS, but does for server-side JS.

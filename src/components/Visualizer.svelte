@@ -1,6 +1,6 @@
 <script>
   import { onMount, onDestroy } from 'svelte';
-  import { shaderTexts, gatorToGLSL } from '../modules/utils';
+  import { shaderTexts, gatorToGLSL, sendData } from '../modules/utils';
   import * as glHelpers from '../modules/glHelpers';
   import Renderer from '../modules/renderer';
   import teapotObj from '../../assets/models/teapot.obj';
@@ -9,6 +9,8 @@
   // If this component is initialized with the gator prob as `false`,
   // it will just act as vanilla webgl code
   export let gator = true;
+  // Whether or not to collect data
+  export let report = true;
 
   // These are controlled by svelte
   let canvas: HTMLCanvasElement;
@@ -31,7 +33,6 @@
     onMount(async () => {
       // Initialize the GL context. `canvas` is only defined here
       renderer = new Renderer(canvas);
-      compile();
     });
   }
 
@@ -52,13 +53,15 @@
         shaders.frag.last = shaders.frag.text;
         shaders.vert.last = shaders.vert.text;
       }
+      renderer.startRender();
       renderer.compile(shaders.frag.last, shaders.vert.last, models[selected]);
+      if (report) sendData('temp', await renderer.getImage(), shaders.frag.last);
+      status = 'success';
     } catch (e) {
+      renderer.clear();
+      if (report) sendData('temp', new Blob([]), shaders.frag.last);
       status = e;
-      return;
     }
-    renderer.startRender();
-    status = 'success';
   };
 
   // `$:` makes svelte rerun this whenever something on the line (i.e., models[selected]) changes
