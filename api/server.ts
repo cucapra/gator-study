@@ -17,17 +17,29 @@ const pool = new pg.Pool({
   port: 5432,
 })
 
-// On start up we just add the table if it doesn't exist yet
-pool.query(`CREATE TABLE IF NOT EXISTS data(
-  userid VARCHAR(22),
+// On start up we just add the tables if they don't exist yet
+pool.query(`CREATE TABLE IF NOT EXISTS participant(
+  part_id varchar(10) PRIMARY KEY,
+  gator boolean,
+  farthest smallint
+);
+CREATE TABLE IF NOT EXISTS data(
+  part_id varchar(10) REFERENCES participant(part_id),
   image bytea,
   code text,
   time timestamp
-);`).catch(e => console.log(e));
+);`)
+  .then( // just have this temp here while working on user setup
+    pool
+      .query('INSERT INTO participant VALUES ($1, $2, $3) ON CONFLICT DO NOTHING', ['temp', true, 0])
+      .catch(e => console.error(e.stack))
+  )
+  .catch(e => console.log(e));
+
 
 // Uncomment this to be able to see data in your browser at `/data`
 // app.get('/data', async (req, res) => {
-//   pool.query('SELECT * FROM data ORDER BY userid ASC', (error, results) => {
+//   pool.query('SELECT * FROM data ORDER BY time ASC', (error, results) => {
 //     if (error) {
 //       throw error
 //     }

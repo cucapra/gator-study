@@ -55,11 +55,11 @@
       }
       renderer.startRender();
       renderer.compile(shaders.frag.last, shaders.vert.last, models[selected]);
-      if (report) sendData('USER_ID', await renderer.getImage(), shaders.frag.last);
+      if (report) sendData('temp', await renderer.getImage(), shaders.frag.last);
       status = 'success';
     } catch (e) {
       renderer.clear();
-      if (report) sendData('USER_ID', new Blob([]), shaders.frag.last);
+      if (report) sendData('temp', new Blob([]), shaders.frag.last);
       status = e;
     }
   };
