@@ -28,7 +28,6 @@ pool.query(`CREATE TABLE IF NOT EXISTS participants(
 );
 CREATE TABLE IF NOT EXISTS data(
   part_id varchar(10) REFERENCES participants(part_id),
-  image bytea,
   code text,
   time timestamp
 );`)
@@ -36,14 +35,14 @@ CREATE TABLE IF NOT EXISTS data(
 
 
 // Uncomment this to be able to see data in your browser at `/data`
-// app.get('/data', async (req, res) => {
-//   pool.query('SELECT * FROM data ORDER BY time ASC', (error, results) => {
-//     if (error) {
-//       throw error
-//     }
-//     res.status(200).json(results.rows)
-//   })
-// })
+app.get('/data', async (req, res) => {
+  pool.query('SELECT * FROM data ORDER BY time ASC', (error, results) => {
+    if (error) {
+      throw error
+    }
+    res.status(200).json(results.rows)
+  })
+})
 
 // helper function to compile gator
 // this could be vastly simplified/improved with some changes to the gator executable
@@ -62,16 +61,15 @@ function gatorc(content: string): Promise<string> {
 }
 
 // puts info into database
-app.use('/update', formidable());
-app.put('/update', async (req, res) => {
-  const { userid, code } = (req as any).fields;
-  const image = fs.readFileSync((req as any).files.image.path);
+app.use('/compile_report', bodyParser.json());
+app.put('/compile_report', async (req, res) => {
+  const { part_id, code } = req.body;
 
   pool
-    .query('INSERT INTO data VALUES ($1, $2, $3, current_timestamp)', [userid, image, code])
+    .query('INSERT INTO data VALUES ($1, $2, current_timestamp)', [part_id, code])
     .catch(e => console.error(e.stack))
 
-  res.end();
+  gatorc(req.body).then(glsl => res.send(glsl), e => res.status(202).send(e));
 })
 
 const alphabet = '123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ';

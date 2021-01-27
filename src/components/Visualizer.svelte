@@ -1,6 +1,6 @@
 <script>
   import { onMount, onDestroy } from 'svelte';
-  import { shaderTexts, gatorToGLSL, sendData, user } from '../modules/utils';
+  import { shaderTexts, gatorToGLSL, user } from '../modules/utils';
   import * as glHelpers from '../modules/glHelpers';
   import Renderer from '../modules/renderer';
   import teapotObj from '../../assets/models/teapot.obj';
@@ -42,11 +42,11 @@
     try {
       if (gator) {
         if (shaders.frag.changed) {
-          shaders.frag.last = await gatorToGLSL('FRAGMENT', shaders.frag.text);
+          shaders.frag.last = await gatorToGLSL('FRAGMENT', shaders.frag.text, report, $user.id);
           shaders.frag.changed = false;
         }
         if (shaders.vert.changed) {
-          shaders.vert.last = await gatorToGLSL('VERTEX', shaders.vert.text);
+          shaders.vert.last = await gatorToGLSL('VERTEX', shaders.vert.text, report, $user.id);
           shaders.vert.changed = false;
         }
       } else {
@@ -55,11 +55,9 @@
       }
       renderer.startRender();
       renderer.compile(shaders.frag.last, shaders.vert.last, models[selected]);
-      if (report) sendData($user.id, await renderer.getImage(), shaders.frag.last);
       status = 'success';
     } catch (e) {
       renderer.clear();
-      if (report) sendData($user.id, new Blob([]), shaders.frag.last);
       status = e;
     }
   };
