@@ -5,8 +5,6 @@ import { writable } from 'svelte/store';
 // communicate shader data with the editor and visualizer components.
 export const shaderTexts = writable({ vert: '', frag: ''});
 
-export const user = writable({ id: '', gator: false});
-
 // https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
 // Takes a gator string, gets the glsl version of it from the server, throws if recieves
 // an error code

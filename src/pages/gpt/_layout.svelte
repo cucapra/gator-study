@@ -1,9 +1,8 @@
 <script>
   import { goto } from '@roxi/routify';
-  import { user } from '../../modules/utils';
 </script>
 
-{#if $user.id}
+{#if sessionStorage.getItem('id')}
   <slot />
 {:else}
   {$goto('/')}

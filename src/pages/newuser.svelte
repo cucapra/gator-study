@@ -1,6 +1,5 @@
 <script>
   import Markdown from '../components/Markdown.svelte';
-  import { user } from '../modules/utils';
 
   let id = '';
 
@@ -21,7 +20,8 @@
     const result = await response.json();
     id = result.part_id;
     gator = result.gator;
-    user.set({id, gator});
+    sessionStorage.setItem('id', id);
+    sessionStorage.setItem('gator', JSON.stringify(gator));
   }
 </script>
 

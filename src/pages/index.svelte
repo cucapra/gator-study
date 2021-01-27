@@ -1,7 +1,6 @@
 <script>
   import { fly } from 'svelte/transition';
   import { goto } from '@roxi/routify';
-  import { user } from '../modules/utils';
 
   let existing: boolean;
   let id: string;
@@ -10,17 +9,16 @@
   async function goToCurrent() {
     const response = await fetch(`http://${window.location.host}/getuser`, {
       method: 'PUT',
-      cache: 'no-cache',
       headers: {
         'Content-Type': 'text/plain'
       },
-      referrerPolicy: 'no-referrer',
       body: id,
     });
     response.json()
       .then(r => {
         const { farthest, gator } = r;
-        user.set({id, gator});
+        sessionStorage.setItem('id', id);
+        sessionStorage.setItem('gator', JSON.stringify(gator));
         $goto(`/gpt/stage${farthest}`);
       })
       .catch(_ => error = `That's not an ID I know!`);
