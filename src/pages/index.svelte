@@ -1,27 +1,29 @@
 <script>
   import { fly } from 'svelte/transition';
   import { goto } from '@roxi/routify';
+  import { user } from '../modules/utils';
 
   let existing: boolean;
-  let userid: string;
+  let id: string;
   let error = '';
 
   async function goToCurrent() {
-    const response = await fetch(`http://${window.location.host}/get_stage`, {
+    const response = await fetch(`http://${window.location.host}/getuser`, {
       method: 'PUT',
       cache: 'no-cache',
       headers: {
         'Content-Type': 'text/plain'
       },
       referrerPolicy: 'no-referrer',
-      body: userid,
+      body: id,
     });
-    const result = await response.text();
-    if (result === 'notfound') {
-      error = `That's not an ID I know!`;
-    } else {
-      $goto(`/gpt/stage${result}`);
-    }
+    response.json()
+      .then(r => {
+        const { farthest, gator } = r;
+        user.set({id, gator});
+        $goto(`/gpt/stage${farthest}`);
+      })
+      .catch(_ => error = `That's not an ID I know!`);
   }
 </script>
 
@@ -44,6 +46,8 @@
     .existing {
       label {
         display: block;
+        position: relative;
+        z-index: 2;
       }
       .input { 
         display: flex;
@@ -59,12 +63,11 @@
           box-sizing: border-box;
         }
       }
+      button {
+        margin: 0;
+      }
       input[type=checkbox] {
         display: none;
-      }
-      div {
-        position: relative;
-        z-index: -1;
       }
     }
   }
@@ -91,7 +94,7 @@
       </label>
       {#if existing}
         <div class="input" transition:fly|local={{y: -50, duration: 300}}>
-          <input bind:value={userid} placeholder="Your ID"/>
+          <input bind:value={id} placeholder="Your ID"/>
           <button on:click={goToCurrent}>Go</button>
         </div>
         <p class="error">{error}</p>

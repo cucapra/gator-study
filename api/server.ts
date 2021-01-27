@@ -21,6 +21,8 @@ const pool = new pg.Pool({
 // On start up we just add the tables if they don't exist yet
 pool.query(`CREATE TABLE IF NOT EXISTS participants(
   part_id varchar(10) PRIMARY KEY,
+  used_glsl boolean,
+  experience smallint,
   gator boolean,
   farthest smallint
 );
@@ -76,13 +78,20 @@ const alphabet = '123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ';
 const nanoid = customAlphabet(alphabet, 10);
 
 app.use('/makeuser', bodyParser.json());
-app.get('/makeuser', async (req, res) => {
+app.post('/makeuser', async (req, res) => {
+  const { expr, glsl } = req.body;
 
   const part_id = nanoid();
-  const gator = Math.random() < 0.5;
+
+  let gator: boolean;
+  if (glsl) {
+    gator = true;
+  } else {
+    gator = Math.random() < 0.5;
+  }
 
   pool
-    .query('INSERT INTO participants VALUES ($1, $2, 0)', [part_id, gator])
+    .query('INSERT INTO participants VALUES ($1, $2, $3, $4, 0)', [part_id, glsl, expr, gator])
     .catch(e => console.error(e.stack))
 
   res.send({ part_id, gator });
@@ -95,13 +104,13 @@ app.put('/compile', async (req, res) => {
   gatorc(req.body).then(glsl => res.send(glsl), e => res.status(202).send(e));
 })
 
-app.use('/get_stage', bodyParser.text());
-app.put('/get_stage', async (req, res) => {
+app.use('/getuser', bodyParser.text());
+app.put('/getuser', async (req, res) => {
   pool
-    .query('SELECT farthest FROM participants WHERE part_id = $1', [req.body])
+    .query('SELECT farthest, gator FROM participants WHERE part_id = $1', [req.body])
     .then(r => {
       if (r.rows.length) {
-        res.send(r.rows[0].farthest.toString());
+        res.send(r.rows[0]);
       } else {
         res.send('notfound');
       }
