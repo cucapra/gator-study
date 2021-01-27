@@ -1,6 +1,6 @@
 <script>
   import { onMount, onDestroy } from 'svelte';
-  import { shaderTexts, gatorToGLSL, sendData } from '../modules/utils';
+  import { shaderTexts, gatorToGLSL, sendData, user } from '../modules/utils';
   import * as glHelpers from '../modules/glHelpers';
   import Renderer from '../modules/renderer';
   import teapotObj from '../../assets/models/teapot.obj';
@@ -10,7 +10,7 @@
   // it will just act as vanilla webgl code
   export let gator = true;
   // Whether or not to collect data
-  export let report = true;
+  export let report = false;
 
   // These are controlled by svelte
   let canvas: HTMLCanvasElement;
@@ -55,11 +55,11 @@
       }
       renderer.startRender();
       renderer.compile(shaders.frag.last, shaders.vert.last, models[selected]);
-      if (report) sendData('temp', await renderer.getImage(), shaders.frag.last);
+      if (report) sendData($user.id, await renderer.getImage(), shaders.frag.last);
       status = 'success';
     } catch (e) {
       renderer.clear();
-      if (report) sendData('temp', new Blob([]), shaders.frag.last);
+      if (report) sendData($user.id, new Blob([]), shaders.frag.last);
       status = e;
     }
   };
@@ -93,15 +93,8 @@
     transform: translate(0, -50%);
   }
   button {
-    border-radius: 0.2rem;
     padding: 0.56em;
-    border: 0;
-    background-color: #3282b8;
-    color: white;
-    &:hover {
-      background-color: darken(#3282b8, 10%);
-      cursor: pointer;
-    }
+    display: inline;
   }
   select {
     border-radius: 0.2rem;
