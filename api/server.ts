@@ -3,7 +3,6 @@ import bodyParser from 'body-parser';
 import child_process from 'child_process';
 import fs from 'fs';
 import pg from 'pg';
-import formidable from 'express-formidable';
 import { customAlphabet } from 'nanoid';
 
 const app = express();
@@ -28,7 +27,6 @@ pool.query(`CREATE TABLE IF NOT EXISTS participants(
 );
 CREATE TABLE IF NOT EXISTS data(
   part_id varchar(10) REFERENCES participants(part_id),
-  image bytea,
   code text,
   time timestamp
 );`)
@@ -41,7 +39,15 @@ CREATE TABLE IF NOT EXISTS data(
 //     if (error) {
 //       throw error
 //     }
-//     res.status(200).json(results.rows)
+//     res.send(results.rows)
+//   })
+// })
+// app.get('/users', async (req, res) => {
+//   pool.query('SELECT * FROM participants ORDER BY part_id ASC', (error, results) => {
+//     if (error) {
+//       throw error
+//     }
+//     res.send(results.rows)
 //   })
 // })
 
@@ -62,16 +68,15 @@ function gatorc(content: string): Promise<string> {
 }
 
 // puts info into database
-app.use('/update', formidable());
-app.put('/update', async (req, res) => {
-  const { userid, code } = (req as any).fields;
-  const image = fs.readFileSync((req as any).files.image.path);
+app.use('/compile_report', bodyParser.json());
+app.put('/compile_report', async (req, res) => {
+  const { part_id, code } = req.body;
 
   pool
-    .query('INSERT INTO data VALUES ($1, $2, $3, current_timestamp)', [userid, image, code])
+    .query('INSERT INTO data VALUES ($1, $2, current_timestamp)', [part_id, code])
     .catch(e => console.error(e.stack))
 
-  res.end();
+  gatorc(code).then(glsl => res.send(glsl), e => res.status(202).send(e));
 })
 
 const alphabet = '123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ';
