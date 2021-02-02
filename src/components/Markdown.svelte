@@ -6,6 +6,10 @@
   let wrapper: HTMLElement;
   let content = '';
 
+  function makeHTML(md: string): string {
+    return md.split('\n\n').reduce((acc, cur) => acc + `<p>${snarkdown(cur)}</p>`, '');
+  }
+
   onMount(() => {
     content = wrapper.textContent;
   });
@@ -13,5 +17,5 @@
 
 <span bind:this={wrapper} hidden><slot /></span>
 
-{@html snarkdown(content)}
+{@html makeHTML(content)}
 

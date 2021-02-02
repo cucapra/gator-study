@@ -55,7 +55,7 @@
 
 <h3 id="vert-title">Vertex shader</h3>
 <span id="vert">
-<Editor value={`
+<Editor onUpdate={vertCallback}>
 #"precision mediump float;";
 
 using "../glsl_defs.lgl";
@@ -70,17 +70,17 @@ uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
 uniform mat4 modelMatrix;
 
-void main() {
+void main() {'{'}
   vNormal = normal;
   vPosition = position;
   gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.);
-}
-`} onUpdate={vertCallback}/>
+{'}'}
+</Editor>
 </span>
 
 <h3 id="frag-title">Fragment shader</h3>
 <span id="frag">
-<Editor value={`
+<Editor onUpdate={fragCallback}>
 #"precision mediump float;";
 
 using "../glsl_defs.lgl";
@@ -97,7 +97,7 @@ varying vec3 vNormal;
 uniform mat4 modelMatrix;
 uniform mat4 viewMatrix;
 
-void main() {
+void main() {'{'}
     vec3 lightPos = [0., 1., 2.];
     vec3 ambient = [.1, 0., 0.];
     vec3 diffColor = [0.2, 0.8, 0.4];
@@ -116,8 +116,8 @@ void main() {
 
     float specular = pow(max(dot(normalize(-camPos), reflectDir), 0.), 32.);
     gl_FragColor = vec4(ambient + diffuse * diffColor + specular * specColor, 1.);
-}
-`} onUpdate={fragCallback}/>
+{'}'}
+</Editor>
 </span>
 
 <div id="prev">

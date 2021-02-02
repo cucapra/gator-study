@@ -7,11 +7,11 @@
 
   // These are props that can be passed to the component,
   // they also have default values if left unspecified
-  export let value = '';
   export let onUpdate: any = () => {};
 
   // This is set in the HTML, and is defined after mounting,
   let cmContainer: HTMLElement;
+  let wrapper: HTMLElement;
 
   // So we use onMount
   onMount(() => {
@@ -22,7 +22,7 @@
       mode: 'x-shader/x-fragment',
       theme: 'material-darker',
       lineWrapping: true,
-      value: value.trim(),
+      value: wrapper.textContent.trim(),
     });
     // Run the onUpdate trigger once at start
     onUpdate(cm);
@@ -30,6 +30,7 @@
     cm.on("change", onUpdate)
   });
 </script>
+
 
 <style global>
   /* Just the CSS taken from CodeMirror repo */
@@ -593,5 +594,8 @@
   }
 </style>
 
+<span bind:this={wrapper} hidden><slot /></span>
+
 <div class="cm-container" bind:this={cmContainer}>
 </div>
+
