@@ -1,6 +1,6 @@
 import * as glHelpers from './glHelpers';
 import type { Model } from './glHelpers';
-import { mat4 } from 'gl-matrix';
+import { mat4, vec3 } from 'gl-matrix';
 
 // TypeScript by default has `gl.canvas` be a union,
 // which doesn't mesh super well with some of the calls here,
@@ -67,8 +67,12 @@ class Renderer {
     });
     canvas.addEventListener('mousemove', e => {
       if (this.mouseDown) {
+        let mat = mat4.create();
+        let vec = vec3.create();
+        mat4.invert(mat, this.viewMatrix);
+        vec3.cross(vec, [mat[12], mat[13], mat[14]], [0, 1, 0]);
+        mat4.rotate(this.viewMatrix, this.viewMatrix, -e.movementY * 0.01, vec);
         mat4.rotateY(this.viewMatrix, this.viewMatrix, e.movementX * 0.01);
-        mat4.rotateX(this.viewMatrix, this.viewMatrix, e.movementY * 0.01);
       }
     });
   }
