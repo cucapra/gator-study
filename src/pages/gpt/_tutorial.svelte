@@ -54,7 +54,7 @@ void main(){
       grid-area: nav;
 
       svg {
-        max-height: 1.5rem;
+        height: 1.5rem;
         fill: white;
         vertical-align: middle;
       }
@@ -82,14 +82,14 @@ void main(){
   <div id="nav">
     {#if prev}
       <a href={$url(`./${prev}`)} class="prev clickable">
-        <svg viewbox="0 0 60 100">
+        <svg viewBox="0 0 60 100">
           <path class="arrow" d="M 50,0 L 60,10 L 20,50 L 60,90 L 50,100 L 0,50 Z" />
         </svg>
       </a>
     {/if}
     {#if next}
       <a href={$url(`./${next}`)} class="next clickable">
-        <svg viewbox="0 0 60 100">
+        <svg viewBox="0 0 60 100">
           <path class="arrow" d="M 50,0 L 60,10 L 20,50 L 60,90 L 50,100 L 0,50 Z" />
         </svg>
       </a>

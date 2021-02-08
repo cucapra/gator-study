@@ -31,10 +31,6 @@
     max-width: 45rem;
     margin: 2rem auto;
 
-    h1 {
-      margin: 0.3em 0;
-    }
-
     form {
       input {
         display: block;
