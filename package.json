@@ -83,7 +83,7 @@
       "codemirror": "^5.59.1",
       "express": "^4.17.1",
       "gl-matrix": "^3.3.0",
-      "nanoid": "^3.1.20",
+      "nanoid": "^3.1.31",
       "pg": "^8.5.1",
       "snarkdown": "^2.0.0"
    }
